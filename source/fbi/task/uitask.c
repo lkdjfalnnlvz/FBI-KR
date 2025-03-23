@@ -67,8 +67,8 @@ void task_draw_ext_save_data_info(ui_view* view, void* data, float x1, float y1,
     char infoText[512];
 
     snprintf(infoText, sizeof(infoText),
-             "Ext Save Data ID: %016llX\n"
-                     "Shared: %s",
+             "외부 세이브 데이터 ID: %016llX\n"
+                          "공유됨: %s",
              info->extSaveDataId,
              info->shared ? "Yes" : "No");
 
@@ -87,9 +87,9 @@ void task_draw_file_info(ui_view* view, void* data, float x1, float y1, float x2
     size_t infoTextPos = 0;
 
     if(strlen(info->name) > 48) {
-        infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Name: %.45s...\n", info->name);
+        infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "이름: %.45s...\n", info->name);
     } else {
-        infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Name: %.48s\n", info->name);
+        infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "이름: %.48s\n", info->name);
     }
 
     infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Attributes: ");
@@ -98,7 +98,7 @@ void task_draw_file_info(ui_view* view, void* data, float x1, float y1, float x2
         bool needsSeparator = false;
 
         if(info->attributes & FS_ATTRIBUTE_DIRECTORY) {
-            infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Directory");
+            infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "폴더");
             needsSeparator = true;
         }
 
@@ -107,7 +107,7 @@ void task_draw_file_info(ui_view* view, void* data, float x1, float y1, float x2
                 infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, ", ");
             }
 
-            infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Hidden");
+            infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "숨김");
             needsSeparator = true;
         }
 
@@ -116,7 +116,7 @@ void task_draw_file_info(ui_view* view, void* data, float x1, float y1, float x2
                 infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, ", ");
             }
 
-            infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Archive");
+            infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "아카이브");
             needsSeparator = true;
         }
 
@@ -125,7 +125,7 @@ void task_draw_file_info(ui_view* view, void* data, float x1, float y1, float x2
                 infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, ", ");
             }
 
-            infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Read Only");
+            infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "읽기 전용");
             needsSeparator = true;
         }
     } else {
@@ -135,7 +135,7 @@ void task_draw_file_info(ui_view* view, void* data, float x1, float y1, float x2
     infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "\n");
 
     if(!(info->attributes & FS_ATTRIBUTE_DIRECTORY)) {
-        infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Size: %.2f %s\n",
+        infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "크기: %.2f %s\n",
                                 ui_get_display_size(info->size), ui_get_display_size_units(info->size));
 
         if(info->isCia && info->ciaInfo.loaded) {
@@ -150,105 +150,12 @@ void task_draw_file_info(ui_view* view, void* data, float x1, float y1, float x2
             }
 
             infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos,
-                                    "Title ID: %016llX\n"
-                                            "Version: %hu (%d.%d.%d)\n"
-                                            "Region: %s\n"
-                                            "Installed Size: %.2f %s",
+                                    "타이틀 ID: %016llX\n"
+                                            "버전: %hu (%d.%d.%d)\n"
+                                            "지역: %s\n"
+                                            "설치된 크기기: %.2f %s",
                                     info->ciaInfo.titleId,
-                                    info->ciaInfo.version, (info->ciaInfo.version >> 10) & 0x3F, (info->ciaInfo.version >> 4) & 0x3F, info->ciaInfo.version & 0xF,
-                                    regionString,
-                                    ui_get_display_size(info->ciaInfo.installedSize),
-                                    ui_get_display_size_units(info->ciaInfo.installedSize));
-        } else if(info->isTicket && info->ticketInfo.loaded) {
-            infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Ticket ID: %016llX", info->ticketInfo.titleId);
-        }
-    }
-
-    float infoWidth;
-    screen_get_string_size(&infoWidth, NULL, infoText, 0.5f, 0.5f);
-
-    float infoX = x1 + (x2 - x1 - infoWidth) / 2;
-    float infoY = y1 + (y2 - y1) / 2 - 8;
-    screen_draw_string(infoText, infoX, infoY, 0.5f, 0.5f, COLOR_TEXT, true);
-}
-
-void task_draw_pending_title_info(ui_view* view, void* data, float x1, float y1, float x2, float y2) {
-    pending_title_info* info = (pending_title_info*) data;
-
-    char infoText[512];
-
-    snprintf(infoText, sizeof(infoText),
-             "Pending Title ID: %016llX\n"
-                     "Media Type: %s\n"
-                     "Version: %hu (%d.%d.%d)",
-             info->titleId,
-             info->mediaType == MEDIATYPE_NAND ? "NAND" : info->mediaType == MEDIATYPE_SD ? "SD" : "Game Card",
-             info->version, (info->version >> 10) & 0x3F, (info->version >> 4) & 0x3F, info->version & 0xF);
-
-    float infoWidth;
-    screen_get_string_size(&infoWidth, NULL, infoText, 0.5f, 0.5f);
-
-    float infoX = x1 + (x2 - x1 - infoWidth) / 2;
-    float infoY = y1 + (y2 - y1) / 2 - 8;
-    screen_draw_string(infoText, infoX, infoY, 0.5f, 0.5f, COLOR_TEXT, true);
-}
-
-void task_draw_system_save_data_info(ui_view* view, void* data, float x1, float y1, float x2, float y2) {
-    system_save_data_info* info = (system_save_data_info*) data;
-
-    char infoText[512];
-
-    snprintf(infoText, sizeof(infoText), "System Save Data ID: %08lX", info->systemSaveDataId);
-
-    float infoWidth;
-    screen_get_string_size(&infoWidth, NULL, infoText, 0.5f, 0.5f);
-
-    float infoX = x1 + (x2 - x1 - infoWidth) / 2;
-    float infoY = y1 + (y2 - y1) / 2 - 8;
-    screen_draw_string(infoText, infoX, infoY, 0.5f, 0.5f, COLOR_TEXT, true);
-}
-
-void task_draw_ticket_info(ui_view* view, void* data, float x1, float y1, float x2, float y2) {
-    ticket_info* info = (ticket_info*) data;
-
-    if(info->loaded) {
-        char infoText[512];
-
-        snprintf(infoText, sizeof(infoText), "Title ID: %016llX", info->titleId);
-
-        float infoWidth;
-        screen_get_string_size(&infoWidth, NULL, infoText, 0.5f, 0.5f);
-
-        float infoX = x1 + (x2 - x1 - infoWidth) / 2;
-        float infoY = y1 + (y2 - y1) / 2 - 8;
-        screen_draw_string(infoText, infoX, infoY, 0.5f, 0.5f, COLOR_TEXT, true);
-    }
-}
-
-void task_draw_title_info(ui_view* view, void* data, float x1, float y1, float x2, float y2) {
-    title_info* info = (title_info*) data;
-
-    char regionString[64];
-
-    if(info->hasMeta) {
-        task_draw_meta_info(view, &info->meta, x1, y1, x2, y2);
-
-        smdh_region_to_string(regionString, info->meta.region, sizeof(regionString));
-    } else {
-        snprintf(regionString, sizeof(regionString), "Unknown");
-    }
-
-    char infoText[512];
-
-    snprintf(infoText, sizeof(infoText),
-             "Title ID: %016llX\n"
-                     "Media Type: %s\n"
-                     "Version: %hu (%d.%d.%d)\n"
-                     "Product Code: %s\n"
-                     "Region: %s\n"
-                     "Size: %.2f %s",
-             info->titleId,
-             info->mediaType == MEDIATYPE_NAND ? "NAND" : info->mediaType == MEDIATYPE_SD ? "SD" : "Game Card",
+                                    info->ciaInfo.version, (info->ciaInfo.version >> 10) & 0x3F, (info->ciaInfo.version >> 4) & 0x3F, info지",
              info->version, (info->version >> 10) & 0x3F, (info->version >> 4) & 0x3F, info->version & 0xF,
              info->productCode,
              regionString,
