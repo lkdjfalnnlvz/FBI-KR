@@ -120,19 +120,19 @@ void init() {
 
     Result romfsRes = romfsInit();
     if(R_FAILED(romfsRes)) {
-        error_panic("Failed to mount RomFS: %08lX", romfsRes);
+        error_panic("RomFS 마운트에 실패했습니다: %08lX", romfsRes);
         return;
     }
 
     if(R_FAILED(init_services())) {
         if(!attempt_patch_pid()) {
-            error_panic("Kernel backdoor not installed.\nPlease run a kernel exploit and try again.");
+            error_panic("커널 백도어가 설치되어 있지 않습니다.\n커널 익스플로잇을 실행하고 다시 시도해주세요.");
             return;
         }
 
         Result initRes = init_services();
         if(R_FAILED(initRes)) {
-            error_panic("Failed to initialize services: %08lX", initRes);
+            error_panic("서비스 실행에 실패했습니다: %08lX", initRes);
             return;
         }
     }
