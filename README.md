@@ -3,6 +3,7 @@
 FBI-KR은 3DS를 위한 오픈소스 타이틀 관리자의 한국어 버전입니다.
 
 다운로드(원본): https://github.com/Steveice10/FBI/releases
+
 다운로드(KR): https://github.com/lkdjfalnnlvz/FBI-KR/releases
 
 빌드하려면 [devkitARM](http://sourceforge.net/projects/devkitpro/files/devkitARM/), 그리고 devkitPro pacman repository에 있는 3ds-curl, 3ds-zlib, 3ds-jansson이 필요합니다.
