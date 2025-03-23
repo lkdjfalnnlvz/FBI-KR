@@ -150,7 +150,7 @@ static void ui_draw_top(ui_view* ui) {
     screen_set_base_alpha(ui_fade_alpha);
 
     char verText[64];
-    snprintf(verText, 64, "Ver. %d.%d.%d", VERSION_MAJOR, VERSION_MINOR, VERSION_MICRO);
+    snprintf(verText, 64, "버전. %d.%d.%d", VERSION_MAJOR, VERSION_MINOR, VERSION_MICRO);
 
     float verWidth;
     float verHeight;
@@ -182,73 +182,7 @@ static void ui_draw_top(ui_view* ui) {
     screen_get_texture_size(&batteryWidth, &batteryHeight, batteryIcon);
 
     float batteryX = topScreenTopBarX + topScreenTopBarWidth - 2 - batteryWidth;
-    float batteryY = topScreenTopBarY + (topScreenTopBarHeight - batteryHeight) / 2;
-    screen_draw_texture(batteryIcon, batteryX, batteryY, batteryWidth, batteryHeight);
-
-    u32 wifiIcon = 0;
-    u32 wifiStatus = 0;
-    if(R_SUCCEEDED(ACU_GetWifiStatus(&wifiStatus)) && wifiStatus) {
-        wifiIcon = TEXTURE_WIFI_0 + osGetWifiStrength();
-    } else {
-        wifiIcon = TEXTURE_WIFI_DISCONNECTED;
-    }
-
-    u32 wifiWidth;
-    u32 wifiHeight;
-    screen_get_texture_size(&wifiWidth, &wifiHeight, wifiIcon);
-
-    float wifiX = topScreenTopBarX + topScreenTopBarWidth - 2 - batteryWidth - 4 - wifiWidth;
-    float wifiY = topScreenTopBarY + (topScreenTopBarHeight - wifiHeight) / 2;
-    screen_draw_texture(wifiIcon, wifiX, wifiY, wifiWidth, wifiHeight);
-
-    if(osGetTime() >= ui_free_space_last_update + 1000) {
-        char* currBuffer = ui_free_space_buffer;
-        FS_ArchiveResource resource = {0};
-
-        if(R_SUCCEEDED(FSUSER_GetArchiveResource(&resource, SYSTEM_MEDIATYPE_SD)) && currBuffer < ui_free_space_buffer + sizeof(ui_free_space_buffer)) {
-            if(currBuffer != ui_free_space_buffer) {
-                snprintf(currBuffer, sizeof(ui_free_space_buffer) - (currBuffer - ui_free_space_buffer), ", ");
-                currBuffer += strlen(currBuffer);
-            }
-
-            u64 size = (u64) resource.freeClusters * (u64) resource.clusterSize;
-            snprintf(currBuffer, sizeof(ui_free_space_buffer) - (currBuffer - ui_free_space_buffer), "SD: %.1f %s",
-                     ui_get_display_size(size), ui_get_display_size_units(size));
-            currBuffer += strlen(currBuffer);
-        }
-
-        if(R_SUCCEEDED(FSUSER_GetArchiveResource(&resource, SYSTEM_MEDIATYPE_CTR_NAND)) && currBuffer < ui_free_space_buffer + sizeof(ui_free_space_buffer)) {
-            if(currBuffer != ui_free_space_buffer) {
-                snprintf(currBuffer, sizeof(ui_free_space_buffer) - (currBuffer - ui_free_space_buffer), ", ");
-                currBuffer += strlen(currBuffer);
-            }
-
-            u64 size = (u64) resource.freeClusters * (u64) resource.clusterSize;
-            snprintf(currBuffer, sizeof(ui_free_space_buffer) - (currBuffer - ui_free_space_buffer), "CTR NAND: %.1f %s",
-                     ui_get_display_size(size), ui_get_display_size_units(size));
-            currBuffer += strlen(currBuffer);
-        }
-
-        if(R_SUCCEEDED(FSUSER_GetArchiveResource(&resource, SYSTEM_MEDIATYPE_TWL_NAND)) && currBuffer < ui_free_space_buffer + sizeof(ui_free_space_buffer)) {
-            if(currBuffer != ui_free_space_buffer) {
-                snprintf(currBuffer, sizeof(ui_free_space_buffer) - (currBuffer - ui_free_space_buffer), ", ");
-                currBuffer += strlen(currBuffer);
-            }
-
-            u64 size = (u64) resource.freeClusters * (u64) resource.clusterSize;
-            snprintf(currBuffer, sizeof(ui_free_space_buffer) - (currBuffer - ui_free_space_buffer), "TWL NAND: %.1f %s",
-                     ui_get_display_size(size), ui_get_display_size_units(size));
-            currBuffer += strlen(currBuffer);
-        }
-
-        if(R_SUCCEEDED(FSUSER_GetArchiveResource(&resource, SYSTEM_MEDIATYPE_TWL_PHOTO)) && currBuffer < ui_free_space_buffer + sizeof(ui_free_space_buffer)) {
-            if(currBuffer != ui_free_space_buffer) {
-                snprintf(currBuffer, sizeof(ui_free_space_buffer) - (currBuffer - ui_free_space_buffer), ", ");
-                currBuffer += strlen(currBuffer);
-            }
-
-            u64 size = (u64) resource.freeClusters * (u64) resource.clusterSize;
-            snprintf(currBuffer, sizeof(ui_free_space_buffer) - (currBuffer - ui_free_space_buffer), "TWL Photo: %.1f %s",
+    float batteryY = topScreenTopBarY + (topScreenTo토: %.1f %s",
                      ui_get_display_size(size), ui_get_display_size_units(size));
             currBuffer += strlen(currBuffer);
         }
