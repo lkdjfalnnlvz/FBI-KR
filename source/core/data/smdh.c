@@ -26,7 +26,7 @@ void smdh_region_to_string(char* out, u32 region, size_t size) {
     if(region == 0) {
         snprintf(out, size, "알 수 없음");
     } else if((region & SMDH_ALL_REGIONS) == SMDH_ALL_REGIONS) {
-        snprintf(out, size, "Region Free");
+        snprintf(out, size, "리전 프리");
     } else {
         size_t pos = 0;
 
