@@ -107,7 +107,7 @@ static void files_action_update(ui_view* view, void* data, linked_list* items, l
 
             Result res = 0;
             if(R_SUCCEEDED(res = clipboard_set_contents(actionData->parent->archive, info->path, selected == &copy_all_contents))) {
-                prompt_display_notify("Success", selected == &copy_all_contents ? "현재 폴더가 클립보드로 복사되었습니다." : (info->attributes & FS_ATTRIBUTE_DIRECTORY) ? "Current directory copied to clipboard." : "File copied to clipboard.", COLOR_TEXT, info, task_draw_file_info, NULL);
+                prompt_display_notify("Success", selected == &copy_all_contents ? "현재 폴더가 클립보드로 복사되었습니다." : (info->attributes & FS_ATTRIBUTE_DIRECTORY) ? "현재 폴더가 클립보드에 복사되었습니다." : "파일이 클립보드에 복사되었습니다.", COLOR_TEXT, info, task_draw_file_info, NULL);
             } else {
                 error_display_res(info, task_draw_file_info, res, "클립보드 복사에 실패했습니다.");
             }
