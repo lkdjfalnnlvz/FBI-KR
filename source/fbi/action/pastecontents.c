@@ -211,7 +211,7 @@ static Result action_paste_contents_restore(void* data, u32 index) {
 }
 
 static bool action_paste_contents_error(void* data, u32 index, Result res, ui_view** errorView) {
-    *errorView = error_display_res(data, action_paste_contents_draw_top, res, "Failed to paste content.");
+    *errorView = error_display_res(data, action_paste_contents_draw_top, res, "콘텐츠 붙여넣기에 실패했습니다.");
     return true;
 }
 
@@ -253,7 +253,7 @@ static void action_paste_contents_update(ui_view* view, void* data, float* progr
     }
 
     *progress = pasteData->pasteInfo.currTotal != 0 ? (float) ((double) pasteData->pasteInfo.currProcessed / (double) pasteData->pasteInfo.currTotal) : 0;
-    snprintf(text, PROGRESS_TEXT_MAX, "%lu / %lu\n%.2f %s / %.2f %s\n%.2f %s/s, ETA %s", pasteData->pasteInfo.processed, pasteData->pasteInfo.total,
+    snprintf(text, PROGRESS_TEXT_MAX, "%lu / %lu\n%.2f %s / %.2f %s\n%.2f %s/s, 남은 시간 %s", pasteData->pasteInfo.processed, pasteData->pasteInfo.total,
              ui_get_display_size(pasteData->pasteInfo.currProcessed),
              ui_get_display_size_units(pasteData->pasteInfo.currProcessed),
              ui_get_display_size(pasteData->pasteInfo.currTotal),
@@ -268,9 +268,9 @@ static void action_paste_contents_onresponse(ui_view* view, void* data, u32 resp
     if(response == PROMPT_YES) {
         Result res = task_data_op(&pasteData->pasteInfo);
         if(R_SUCCEEDED(res)) {
-            info_display("Pasting Contents", "Press B to cancel.", true, data, action_paste_contents_update, action_paste_contents_draw_top);
+            info_display("콘텐츠 붙여넣기", "B를 눌러 취소하세요.", true, data, action_paste_contents_update, action_paste_contents_draw_top);
         } else {
-            error_display_res(NULL, NULL, res, "Failed to initiate paste operation.");
+            error_display_res(NULL, NULL, res, "붙여넣기 작업을 시작하는 데 실패했습니다.");
 
             action_paste_contents_free_data(pasteData);
         }
@@ -300,9 +300,9 @@ static void action_paste_contents_loading_update(ui_view* view, void* data, floa
             loadingData->pasteData->pasteInfo.total = linked_list_size(&loadingData->pasteData->contents);
             loadingData->pasteData->pasteInfo.processed = loadingData->pasteData->pasteInfo.total;
 
-            prompt_display_yes_no("Confirmation", "Paste clipboard contents to the current directory?", COLOR_TEXT, loadingData->pasteData, action_paste_contents_draw_top, action_paste_contents_onresponse);
+            prompt_display_yes_no("확인", "클립보드 콘텐츠를 현재 폴더로 붙여넣기 할까요?", COLOR_TEXT, loadingData->pasteData, action_paste_contents_draw_top, action_paste_contents_onresponse);
         } else {
-            error_display_res(NULL, NULL, loadingData->popData.result, "Failed to populate clipboard content list.");
+            error_display_res(NULL, NULL, loadingData->popData.result, "클립보드 콘텐츠 리스트 채우기에 실패했습니다.");
 
             action_paste_contents_free_data(loadingData->pasteData);
         }
@@ -315,18 +315,18 @@ static void action_paste_contents_loading_update(ui_view* view, void* data, floa
         svcSignalEvent(loadingData->popData.cancelEvent);
     }
 
-    snprintf(text, PROGRESS_TEXT_MAX, "Fetching clipboard content list...");
+    snprintf(text, PROGRESS_TEXT_MAX, "클립보드 콘텐츠 목록 가져오는 중...");
 }
 
 void action_paste_contents(linked_list* items, list_item* selected) {
     if(!clipboard_has_contents()) {
-        prompt_display_notify("Failure", "Clipboard empty.", COLOR_TEXT, NULL, NULL, NULL);
+        prompt_display_notify("실패", "클립보드가 비어있습니다.", COLOR_TEXT, NULL, NULL, NULL);
         return;
     }
 
     paste_contents_data* data = (paste_contents_data*) calloc(1, sizeof(paste_contents_data));
     if(data == NULL) {
-        error_display(NULL, NULL, "Failed to allocate paste contents data.");
+        error_display(NULL, NULL, "콘텐츠 붙여넣기 데이터 할당에 실패했습니다.");
 
         return;
     }
@@ -336,7 +336,7 @@ void action_paste_contents(linked_list* items, list_item* selected) {
     file_info* targetInfo = (file_info*) selected->data;
     Result targetCreateRes = task_create_file_item(&data->targetItem, targetInfo->archive, targetInfo->path, targetInfo->attributes, false);
     if(R_FAILED(targetCreateRes)) {
-        error_display_res(NULL, NULL, targetCreateRes, "Failed to create target file item.");
+        error_display_res(NULL, NULL, targetCreateRes, "대상 파일 항목을 만드는 데 실패했습니다");
 
         action_paste_contents_free_data(data);
         return;
