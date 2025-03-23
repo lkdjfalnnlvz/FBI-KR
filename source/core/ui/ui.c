@@ -108,13 +108,6 @@ void ui_pop() {
     svcReleaseMutex(ui_stack_mutex);
 }
 
-    float freeSpaceHeight;
-    screen_get_string_size(NULL, &freeSpaceHeight, ui_free_space_buffer, 0.35f, 0.35f);
-
-    screen_draw_string(ui_free_space_buffer, topScreenBottomBarX + 2, topScreenBottomBarY + (topScreenBottomBarHeight - freeSpaceHeight) / 2, 0.35f, 0.35f, COLOR_TEXT, true);
-
-    screen_set_base_alpha(0xFF);
-}
 static void ui_draw_top(ui_view* ui) {
     screen_select(GFX_TOP);
 
@@ -262,6 +255,14 @@ static void ui_draw_top(ui_view* ui) {
 
         ui_free_space_last_update = osGetTime();
     }
+
+    float freeSpaceHeight;
+    screen_get_string_size(NULL, &freeSpaceHeight, ui_free_space_buffer, 0.35f, 0.35f);
+
+    screen_draw_string(ui_free_space_buffer, topScreenBottomBarX + 2, topScreenBottomBarY + (topScreenBottomBarHeight - freeSpaceHeight) / 2, 0.35f, 0.35f, COLOR_TEXT, true);
+
+    screen_set_base_alpha(0xFF);
+}
 
 static void ui_draw_bottom(ui_view* ui) {
     screen_select(GFX_BOTTOM);
