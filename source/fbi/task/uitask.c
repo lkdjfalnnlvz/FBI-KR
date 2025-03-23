@@ -214,10 +214,41 @@ void task_draw_file_info(ui_view* view, void* data, float x1, float y1, float x2
      if(info->loaded) {
          char infoText[512];
  
-         snprintf(infoText, sizeof(infoText), "Title ID: %016llX", info->titleId);
+         snprintf(infoText, sizeof(infoText), "타이틀 ID: %016llX", info->titleId);
  
          float infoWidth;
-         screen_get_string_size(&infoWidth, NULL, infoText, 0.5f, 0.지",
+         screen_get_string_size(&infoWidth, NULL, infoText, 0.5f, 0.5f);
+  
+          float infoX = x1 + (x2 - x1 - infoWidth) / 2;
+          float infoY = y1 + (y2 - y1) / 2 - 8;
+          screen_draw_string(infoText, infoX, infoY, 0.5f, 0.5f, COLOR_TEXT, true);
+      }
+  }
+  
+  void task_draw_title_info(ui_view* view, void* data, float x1, float y1, float x2, float y2) {
+      title_info* info = (title_info*) data;
+  
+      char regionString[64];
+  
+      if(info->hasMeta) {
+          task_draw_meta_info(view, &info->meta, x1, y1, x2, y2);
+  
+          smdh_region_to_string(regionString, info->meta.region, sizeof(regionString));
+      } else {
+          snprintf(regionString, sizeof(regionString), "Unknown");
+      }
+  
+      char infoText[512];
+  
+      snprintf(infoText, sizeof(infoText),
+               "타이틀 ID: %016llX\n"
+                       "미디어 종류: %s\n"
+                       "버전: %hu (%d.%d.%d)\n"
+                       "제품 코드: %s\n"
+                       "지역: %s\n"
+                       "크기: %.2f %s",
+              info->titleId,
+              info->mediaType == MEDIATYPE_NAND ? "낸드" : info->mediaType == MEDIATYPE_SD ? "SD" : "게임 카트리지",
              info->version, (info->version >> 10) & 0x3F, (info->version >> 4) & 0x3F, info->version & 0xF,
              info->productCode,
              regionString,
