@@ -92,7 +92,7 @@ void task_draw_file_info(ui_view* view, void* data, float x1, float y1, float x2
         infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "이름: %.48s\n", info->name);
     }
 
-    infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Attributes: ");
+    infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "속성: ");
 
     if(info->attributes & (FS_ATTRIBUTE_DIRECTORY | FS_ATTRIBUTE_HIDDEN | FS_ATTRIBUTE_ARCHIVE | FS_ATTRIBUTE_READ_ONLY)) {
         bool needsSeparator = false;
@@ -129,7 +129,7 @@ void task_draw_file_info(ui_view* view, void* data, float x1, float y1, float x2
             needsSeparator = true;
         }
     } else {
-        infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "None");
+        infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "없음음");
     }
 
     infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "\n");
@@ -146,7 +146,7 @@ void task_draw_file_info(ui_view* view, void* data, float x1, float y1, float x2
 
                 smdh_region_to_string(regionString, info->ciaInfo.meta.region, sizeof(regionString));
             } else {
-                snprintf(regionString, sizeof(regionString), "Unknown");
+                snprintf(regionString, sizeof(regionString), "알 수 없음");
             }
 
             infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos,
