@@ -10,30 +10,30 @@
 #include "task/uitask.h"
 #include "../core/core.h"
 
-static list_item rename_opt = {"Rename", COLOR_TEXT, action_rename};
-static list_item copy = {"Copy", COLOR_TEXT, NULL};
-static list_item paste = {"Paste", COLOR_TEXT, action_paste_contents};
+static list_item rename_opt = {"이름 변경", COLOR_TEXT, action_rename};
+static list_item copy = {"복사", COLOR_TEXT, NULL};
+static list_item paste = {"붙여넣기", COLOR_TEXT, action_paste_contents};
 
-static list_item delete_file = {"Delete", COLOR_TEXT, action_delete_file};
+static list_item delete_file = {"삭제", COLOR_TEXT, action_delete_file};
 
-static list_item install_cia = {"Install CIA", COLOR_TEXT, action_install_cia};
-static list_item install_and_delete_cia = {"Install and delete CIA", COLOR_TEXT, action_install_cia_delete};
+static list_item install_cia = {"CIA 설치", COLOR_TEXT, action_install_cia};
+static list_item install_and_delete_cia = {"CIA 설치 후 파일 삭제", COLOR_TEXT, action_install_cia_delete};
 
-static list_item install_ticket = {"Install ticket", COLOR_TEXT, action_install_ticket};
-static list_item install_and_delete_ticket = {"Install and delete ticket", COLOR_TEXT, action_install_ticket_delete};
+static list_item install_ticket = {"티켓 설치", COLOR_TEXT, action_install_ticket};
+static list_item install_and_delete_ticket = {"티켓 설치 후 파일 삭제", COLOR_TEXT, action_install_ticket_delete};
 
-static list_item delete_dir = {"Delete", COLOR_TEXT, action_delete_dir};
-static list_item copy_all_contents = {"Copy all contents", COLOR_TEXT, NULL};
-static list_item delete_all_contents = {"Delete all contents", COLOR_TEXT, action_delete_dir_contents};
-static list_item new_folder = {"New folder", COLOR_TEXT, action_new_folder};
+static list_item delete_dir = {"삭제", COLOR_TEXT, action_delete_dir};
+static list_item copy_all_contents = {"모든 콘텐츠 복사", COLOR_TEXT, NULL};
+static list_item delete_all_contents = {"모든 콘텐츠 삭제", COLOR_TEXT, action_delete_dir_contents};
+static list_item new_folder = {"새 폴더", COLOR_TEXT, action_new_folder};
 
-static list_item install_all_cias = {"Install all CIAs", COLOR_TEXT, action_install_cias};
-static list_item install_and_delete_all_cias = {"Install and delete all CIAs", COLOR_TEXT, action_install_cias_delete};
-static list_item delete_all_cias = {"Delete all CIAs", COLOR_TEXT, action_delete_dir_cias};
+static list_item install_all_cias = {"CIA 전부 설치", COLOR_TEXT, action_install_cias};
+static list_item install_and_delete_all_cias = {"CIA 전부 설치 후 파일 삭제", COLOR_TEXT, action_install_cias_delete};
+static list_item delete_all_cias = {"CIA 전부 파일 삭제", COLOR_TEXT, action_delete_dir_cias};
 
-static list_item install_all_tickets = {"Install all tickets", COLOR_TEXT, action_install_tickets};
-static list_item install_and_delete_all_tickets = {"Install and delete all tickets", COLOR_TEXT, action_install_tickets_delete};
-static list_item delete_all_tickets = {"Delete all tickets", COLOR_TEXT, action_delete_dir_tickets};
+static list_item install_all_tickets = {"티켓 전부 설치", COLOR_TEXT, action_install_tickets};
+static list_item install_and_delete_all_tickets = {"티켓 전부 설치 후 파일 삭제", COLOR_TEXT, action_install_tickets_delete};
+static list_item delete_all_tickets = {"티켓 전부 삭제제", COLOR_TEXT, action_delete_dir_tickets};
 
 typedef struct {
     populate_files_data populateData;
@@ -171,7 +171,7 @@ static void files_action_update(ui_view* view, void* data, linked_list* items, l
 static void files_action_open(linked_list* items, list_item* selected, files_data* parent) {
     files_action_data* data = (files_action_data*) calloc(1, sizeof(files_action_data));
     if(data == NULL) {
-        error_display(NULL, NULL, "Failed to allocate files action data.");
+        error_display(NULL, NULL, "파일 작업 데이터를 할당하는 데 실패했습니다.");
 
         return;
     }
@@ -196,7 +196,7 @@ static void files_action_open(linked_list* items, list_item* selected, files_dat
         }
     }
 
-    list_display((((file_info*) selected->data)->attributes & FS_ATTRIBUTE_DIRECTORY) ? "Directory Action" : "File Action", "A: Select, B: Return", data, files_action_update, files_action_draw_top);
+    list_display((((file_info*) selected->data)->attributes & FS_ATTRIBUTE_DIRECTORY) ? "디렉토리 작업" : "파일 작업", "A: 선택, B: 뒤로 가기", data, files_action_update, files_action_draw_top);
 }
 
 static void files_options_add_entry(linked_list* items, const char* name, bool* val) {
@@ -238,16 +238,16 @@ static void files_options_update(ui_view* view, void* data, linked_list* items, 
     }
 
     if(linked_list_size(items) == 0) {
-        files_options_add_entry(items, "Show hidden", &listData->showHidden);
-        files_options_add_entry(items, "Show directories", &listData->showDirectories);
-        files_options_add_entry(items, "Show files", &listData->showFiles);
-        files_options_add_entry(items, "Show CIAs", &listData->showCias);
-        files_options_add_entry(items, "Show tickets", &listData->showTickets);
+        files_options_add_entry(items, "숨김 파일 보기", &listData->showHidden);
+        files_options_add_entry(items, "폴더 보기", &listData->showDirectories);
+        files_options_add_entry(items, "파일 보기", &listData->showFiles);
+        files_options_add_entry(items, "CIA 보기", &listData->showCias);
+        files_options_add_entry(items, "티켓 보기", &listData->showTickets);
     }
 }
 
 static void files_options_open(files_data* data) {
-    list_display("Options", "A: Toggle, B: Return", data, files_options_update, NULL);
+    list_display("설정", "A: 토글, B: 뒤로 가기", data, files_options_update, NULL);
 }
 
 static void files_draw_top(ui_view* view, void* data, float x1, float y1, float x2, float y2, list_item* selected) {
@@ -270,7 +270,7 @@ static void files_repopulate(files_data* listData, linked_list* items) {
 
     Result res = task_populate_files(&listData->populateData);
     if(R_FAILED(res)) {
-        error_display_res(NULL, NULL, res, "Failed to initiate file list population.");
+        error_display_res(NULL, NULL, res, "파일 목록 채우기를 시작하지 못했습니다.");
     }
 
     listData->populated = true;
@@ -347,7 +347,7 @@ static void files_update(ui_view* view, void* data, linked_list* items, list_ite
     if(selected != NULL && selected->data != NULL && (selectedTouched || (hidKeysDown() & KEY_A))) {
         file_info* fileInfo = (file_info*) selected->data;
 
-        if((fileInfo->attributes & FS_ATTRIBUTE_DIRECTORY) && strncmp(selected->name, "<current directory>", LIST_ITEM_NAME_MAX) != 0) {
+        if((fileInfo->attributes & FS_ATTRIBUTE_DIRECTORY) && strncmp(selected->name, "<현재 폴더>", LIST_ITEM_NAME_MAX) != 0) {
             files_navigate(listData, items, fileInfo->path);
         } else {
             files_action_open(items, selected, listData);
@@ -360,7 +360,7 @@ static void files_update(ui_view* view, void* data, linked_list* items, list_ite
     }
 
     if(listData->populateData.finished && R_FAILED(listData->populateData.result)) {
-        error_display_res(NULL, NULL, listData->populateData.result, "Failed to populate file list.");
+        error_display_res(NULL, NULL, listData->populateData.result, "파일 목록을 채오는 데 실패했습니다.");
 
         listData->populateData.result = 0;
     }
@@ -369,7 +369,7 @@ static void files_update(ui_view* view, void* data, linked_list* items, list_ite
 void files_open(FS_ArchiveID archiveId, FS_Path archivePath) {
     files_data* data = (files_data*) calloc(1, sizeof(files_data));
     if(data == NULL) {
-        error_display(NULL, NULL, "Failed to allocate files data.");
+        error_display(NULL, NULL, "파일 데이터를 할당하는 데 실패했습니다.");
 
         return;
     }
@@ -397,7 +397,7 @@ void files_open(FS_ArchiveID archiveId, FS_Path archivePath) {
     if(archivePath.data != NULL) {
         data->archivePath.data = calloc(1, data->archivePath.size);
         if(data->archivePath.data == NULL) {
-            error_display(NULL, NULL, "Failed to allocate files data.");
+            error_display(NULL, NULL, "파일 데이터를 할당하는 데 실패했습니다.");
 
             files_free_data(data);
             return;
@@ -412,13 +412,13 @@ void files_open(FS_ArchiveID archiveId, FS_Path archivePath) {
 
     Result res = 0;
     if(R_FAILED(res = fs_open_archive(&data->archive, archiveId, archivePath))) {
-        error_display_res(NULL, NULL, res, "Failed to open file listing archive.");
+        error_display_res(NULL, NULL, res, "파일 목록 아카이브를 열 수 없습니다.");
 
         files_free_data(data);
         return;
     }
 
-    list_display("Files", "A: Select, B: Back, X: Refresh, Select: Options", data, files_update, files_draw_top);
+    list_display("파일", "A: 선택, B: 뒤로, X: 새로고침, Select: 설정", data, files_update, files_draw_top);
 }
 
 static void files_open_nand_warning_onresponse(ui_view* view, void* data, u32 response) {
@@ -430,7 +430,7 @@ static void files_open_nand_warning_onresponse(ui_view* view, void* data, u32 re
 }
 
 void files_open_nand_warning(FS_ArchiveID archive) {
-    prompt_display_yes_no("Confirmation", "Modifying the NAND is dangerous and can render\n the system inoperable.\nMake sure you know what you are doing.\n\nProceed?", COLOR_TEXT, (void*) archive, NULL, files_open_nand_warning_onresponse);
+    prompt_display_yes_no("확인", "낸드를 수정하는 것은 매우 위험하며\n 시스템을 벽돌로 만들 수 있습니다.\n당신이 무얼 하는지 알고 있는지 확인하세요.\n\n진행할까요?", COLOR_TEXT, (void*) archive, NULL, files_open_nand_warning_onresponse);
 }
 
 void files_open_sd() {
