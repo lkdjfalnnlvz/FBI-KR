@@ -57,7 +57,7 @@ static void action_rename_onresponse(ui_view* view, void* data, SwkbdButton butt
         }
 
         if(R_SUCCEEDED(res)) {
-            if(strncmp(selected->name, "<current directory>", LIST_ITEM_NAME_MAX) != 0 && strncmp(selected->name, "<current file>", LIST_ITEM_NAME_MAX) != 0) {
+            if(strncmp(selected->name, "<현재 경로>", LIST_ITEM_NAME_MAX) != 0 && strncmp(selected->name, "<current file>", LIST_ITEM_NAME_MAX) != 0) {
                 string_copy(selected->name, fileName, LIST_ITEM_NAME_MAX);
             }
 
@@ -68,7 +68,7 @@ static void action_rename_onresponse(ui_view* view, void* data, SwkbdButton butt
 
             prompt_display_notify("Success", "Renamed.", COLOR_TEXT, NULL, NULL, NULL);
         } else {
-            error_display_res(NULL, NULL, res, "Failed to perform rename.");
+            error_display_res(NULL, NULL, res, "이름 변경에 실패했습니다.");
         }
     }
 
@@ -78,7 +78,7 @@ static void action_rename_onresponse(ui_view* view, void* data, SwkbdButton butt
 void action_rename(linked_list* items, list_item* selected) {
     rename_data* data = (rename_data*) calloc(1, sizeof(rename_data));
     if(data == NULL) {
-        error_display(NULL, NULL, "Failed to allocate rename data.");
+        error_display(NULL, NULL, "이름 변경 데이터 할당에 실패했습니다.");
 
         return;
     }
