@@ -9,8 +9,8 @@
 #include "task/uitask.h"
 #include "../core/core.h"
 
-static list_item delete_pending_title = {"Delete Pending Title", COLOR_TEXT, action_delete_pending_title};
-static list_item delete_all_pending_titles = {"Delete All Pending Titles", COLOR_TEXT, action_delete_all_pending_titles};
+static list_item delete_pending_title = {"보류 중인 타이틀 삭제", COLOR_TEXT, action_delete_pending_title};
+static list_item delete_all_pending_titles = {"보류 중인 타이틀 전부 삭제", COLOR_TEXT, action_delete_all_pending_titles};
 
 typedef struct {
     populate_pending_titles_data populateData;
@@ -61,7 +61,7 @@ static void pendingtitles_action_update(ui_view* view, void* data, linked_list* 
 static void pendingtitles_action_open(linked_list* items, list_item* selected) {
     pendingtitles_action_data* data = (pendingtitles_action_data*) calloc(1, sizeof(pendingtitles_action_data));
     if(data == NULL) {
-        error_display(NULL, NULL, "Failed to allocate pending titles action data.");
+        error_display(NULL, NULL, "보류 중인 타이틀 작업 데이터 할당에 실패했습니다.");
 
         return;
     }
@@ -69,7 +69,7 @@ static void pendingtitles_action_open(linked_list* items, list_item* selected) {
     data->items = items;
     data->selected = selected;
 
-    list_display("Pending Title Action", "A: Select, B: Return", data, pendingtitles_action_update, pendingtitles_action_draw_top);
+    list_display("보류 중인 타이틀 작업", "A: 선택, B: 취소", data, pendingtitles_action_update, pendingtitles_action_draw_top);
 }
 
 static void pendingtitles_draw_top(ui_view* view, void* data, float x1, float y1, float x2, float y2, list_item* selected) {
@@ -109,14 +109,14 @@ static void pendingtitles_update(ui_view* view, void* data, linked_list* items, 
         listData->populateData.items = items;
         Result res = task_populate_pending_titles(&listData->populateData);
         if(R_FAILED(res)) {
-            error_display_res(NULL, NULL, res, "Failed to initiate pending title list population.");
+            error_display_res(NULL, NULL, res, "보류 중인 타이틀 목록 채우기를 시작하지 못했습니다.");
         }
 
         listData->populated = true;
     }
 
     if(listData->populateData.finished && R_FAILED(listData->populateData.result)) {
-        error_display_res(NULL, NULL, listData->populateData.result, "Failed to populate pending title list.");
+        error_display_res(NULL, NULL, listData->populateData.result, "보류 중인 타이틀 목록 채우기에 실패했습니다..");
 
         listData->populateData.result = 0;
     }
@@ -130,7 +130,7 @@ static void pendingtitles_update(ui_view* view, void* data, linked_list* items, 
 void pendingtitles_open() {
     pendingtitles_data* data = (pendingtitles_data*) calloc(1, sizeof(pendingtitles_data));
     if(data == NULL) {
-        error_display(NULL, NULL, "Failed to allocate pending titles data.");
+        error_display(NULL, NULL, "보류 중인 타이틀 데이터를 할당하는 데 실패했습니다.");
 
         return;
     }
