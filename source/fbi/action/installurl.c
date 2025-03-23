@@ -274,7 +274,7 @@ static void action_install_url_install_update(ui_view* view, void* data, float* 
     }
 
     *progress = installData->installInfo.currTotal != 0 ? (float) ((double) installData->installInfo.currProcessed / (double) installData->installInfo.currTotal) : 0;
-    snprintf(text, PROGRESS_TEXT_MAX, "%lu / %lu\n%.2f %s / %.2f %s\n%.2f %s/s, ETA %s", installData->installInfo.processed, installData->installInfo.total,
+    snprintf(text, PROGRESS_TEXT_MAX, "%lu / %lu\n%.2f %s / %.2f %s\n%.2f %s/s, 남은 시간 %s", installData->installInfo.processed, installData->installInfo.total,
              ui_get_display_size(installData->installInfo.currProcessed),
              ui_get_display_size_units(installData->installInfo.currProcessed),
              ui_get_display_size(installData->installInfo.currTotal),
