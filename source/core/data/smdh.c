@@ -9,13 +9,13 @@
 #define SMDH_ALL_REGIONS 0x7F
 
 static const char* smdh_region_strings[SMDH_NUM_REGIONS] = {
-        "Japan",
-        "North America",
-        "Europe",
-        "Australia",
-        "China",
-        "Korea",
-        "Taiwan"
+        "일본",
+        "북미",
+        "유럽",
+        "호주",
+        "중국",
+        "대한민국",
+        "대만"
 };
 
 void smdh_region_to_string(char* out, u32 region, size_t size) {
