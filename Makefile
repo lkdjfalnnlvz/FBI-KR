@@ -1,6 +1,6 @@
 TARGET := 3DS
 
-NAME := FBI
+NAME := FBIKR
 
 BUILD_DIR := build
 OUTPUT_DIR := output
