@@ -18,7 +18,7 @@ static void update_check_update(ui_view* view, void* data, float* progress, char
     Result res = 0;
 
     json_t* json = NULL;
-    if(R_SUCCEEDED(res = http_download_json("https://api.github.com/repos/lkdjfalnnlvz/FBI/releases/latest", &json, 16 * 1024))) {
+    if(R_SUCCEEDED(res = http_download_json("https://api.github.com/repos/lkdjfalnnlvz/FBI-KR/releases/latest", &json, 16 * 1024))) {
         if(json_is_object(json)) {
             json_t* name = json_object_get(json, "name");
             json_t* assets = json_object_get(json, "assets");
@@ -37,7 +37,7 @@ static void update_check_update(ui_view* view, void* data, float* progress, char
                             json_t* assetUrl = json_object_get(val, "browser_download_url");
 
                             if(json_is_string(assetName) && json_is_string(assetUrl)) {
-                                if(strncmp(json_string_value(assetName), fs_get_3dsx_path() != NULL ? "FBI.3dsx" : "FBI.cia", json_string_length(assetName)) == 0) {
+                                if(strncmp(json_string_value(assetName), fs_get_3dsx_path() != NULL ? "FBIKR.3dsx" : "FBIKR.cia", json_string_length(assetName)) == 0) {
                                     url = json_string_value(assetUrl);
                                     break;
                                 }
