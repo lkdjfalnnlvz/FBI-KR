@@ -1,6 +1,6 @@
 # FBI-KR
 
-FBI-KR은 3DS를 위한 오픈소스 타이틀 관리자입니다.
+FBI-KR은 3DS를 위한 오픈소스 타이틀 관리자의 한국어 버전입니다.
 
 다운로드(원본): https://github.com/Steveice10/FBI/releases
 다운로드(KR): https://github.com/lkdjfalnnlvz/FBI-KR/releases
