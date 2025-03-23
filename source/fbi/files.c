@@ -107,9 +107,9 @@ static void files_action_update(ui_view* view, void* data, linked_list* items, l
 
             Result res = 0;
             if(R_SUCCEEDED(res = clipboard_set_contents(actionData->parent->archive, info->path, selected == &copy_all_contents))) {
-                prompt_display_notify("Success", selected == &copy_all_contents ? "Current directory contents copied to clipboard." : (info->attributes & FS_ATTRIBUTE_DIRECTORY) ? "Current directory copied to clipboard." : "File copied to clipboard.", COLOR_TEXT, info, task_draw_file_info, NULL);
+                prompt_display_notify("Success", selected == &copy_all_contents ? "현재 폴더가 클립보드로 복사되었습니다." : (info->attributes & FS_ATTRIBUTE_DIRECTORY) ? "Current directory copied to clipboard." : "File copied to clipboard.", COLOR_TEXT, info, task_draw_file_info, NULL);
             } else {
-                error_display_res(info, task_draw_file_info, res, "Failed to copy to clipboard.");
+                error_display_res(info, task_draw_file_info, res, "클립보드 복사에 실패했습니다.");
             }
         } else if(selected == &install_all_cias || selected == &install_and_delete_all_cias || selected == &install_all_tickets || selected == &install_and_delete_all_tickets) {
             void (*filteredAction)(linked_list*, list_item*, bool (*)(void*, const char*, u32), void*) = action;
@@ -347,7 +347,7 @@ static void files_update(ui_view* view, void* data, linked_list* items, list_ite
     if(selected != NULL && selected->data != NULL && (selectedTouched || (hidKeysDown() & KEY_A))) {
         file_info* fileInfo = (file_info*) selected->data;
 
-        if((fileInfo->attributes & FS_ATTRIBUTE_DIRECTORY) && strncmp(selected->name, "<현재 폴더>", LIST_ITEM_NAME_MAX) != 0) {
+        if((fileInfo->attributes & FS_ATTRIBUTE_DIRECTORY) && strncmp(selected->name, "<current directory>", LIST_ITEM_NAME_MAX) != 0) {
             files_navigate(listData, items, fileInfo->path);
         } else {
             files_action_open(items, selected, listData);
