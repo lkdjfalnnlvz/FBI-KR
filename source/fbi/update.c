@@ -18,7 +18,7 @@ static void update_check_update(ui_view* view, void* data, float* progress, char
     Result res = 0;
 
     json_t* json = NULL;
-    if(R_SUCCEEDED(res = http_download_json("https://api.github.com/repos/Steveice10/FBI/releases/latest", &json, 16 * 1024))) {
+    if(R_SUCCEEDED(res = http_download_json("https://api.github.com/repos/lkdjfalnnlvz/FBI/releases/latest", &json, 16 * 1024))) {
         if(json_is_object(json)) {
             json_t* name = json_object_get(json, "name");
             json_t* assets = json_object_get(json, "assets");
@@ -66,16 +66,16 @@ static void update_check_update(ui_view* view, void* data, float* progress, char
     info_destroy(view);
 
     if(hasUpdate) {
-        action_install_url("Update FBI to the latest version?", updateURL, fs_get_3dsx_path(), NULL, NULL, NULL, NULL);
+        action_install_url("FBI를 최신 버전으로 업데이트할까요?", updateURL, fs_get_3dsx_path(), NULL, NULL, NULL, NULL);
     } else {
         if(R_FAILED(res)) {
-            error_display_res(NULL, NULL, res, "Failed to check for update.");
+            error_display_res(NULL, NULL, res, "업데이트 확인에 실패했습니다.");
         } else {
-            prompt_display_notify("Success", "No updates available.", COLOR_TEXT, NULL, NULL, NULL);
+            prompt_display_notify("성공", "업데이트가 더 이상 없습니다.", COLOR_TEXT, NULL, NULL, NULL);
         }
     }
 }
 
 void update_open() {
-    info_display("Checking For Updates", "", false, NULL, update_check_update, NULL);
+    info_display("업데이트 확인 중", "", false, NULL, update_check_update, NULL);
 }
