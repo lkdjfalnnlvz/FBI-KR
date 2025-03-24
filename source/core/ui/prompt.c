@@ -77,10 +77,10 @@ static const char* button_strings[32] = {
         "B",
         "Select",
         "Start",
-        "D-Pad Right",
-        "D-Pad Left",
-        "D-Pad Up",
-        "D-Pad Down",
+        "십자 패드 오른쪽",
+        "십자 패드 왼쪽",
+        "십자 패드 위",
+        "십자 패드 아래",
         "R",
         "L",
         "X",
@@ -97,19 +97,19 @@ static const char* button_strings[32] = {
         "",
         "",
         "",
-        "C-Stick Right",
-        "C-Stick Left",
-        "C-Stick Up",
-        "C-Stick Down",
-        "Circle Pad Right",
-        "Circle Pad Left",
-        "Circle Pad Up",
-        "Circle Pad Down"
+        "C스틱 오른쪽",
+        "C스틱 왼쪽",
+        "C스틱 위",
+        "C스틱 아래",
+        "슬라이드 패드 오른쪽",
+        "슬라이드 패드 왼쪾",
+        "슬라이드 패드 위",
+        "슬라이드 패드 아래"
 };
 
 static void prompt_button_to_string(char* out, size_t size, u32 button) {
     if(button == PROMPT_BUTTON_ANY) {
-        snprintf(out, size, "Any Button");
+        snprintf(out, size, "아무 버튼이나 누름");
         return;
     }
 
@@ -158,7 +158,7 @@ ui_view* prompt_display_multi_choice(const char* name, const char* text, u32 col
                                                                                                                                                           void (*onResponse)(ui_view* view, void* data, u32 response)) {
     prompt_data* promptData = (prompt_data*) calloc(1, sizeof(prompt_data));
     if(promptData == NULL) {
-        error_display(NULL, NULL, "Failed to allocate prompt data.");
+        error_display(NULL, NULL, "프롬프트 데이터를 할당하는 데 실패했습니다.");
 
         return NULL;
     }
@@ -197,7 +197,7 @@ ui_view* prompt_display_notify(const char* name, const char* text, u32 color, vo
 
 ui_view* prompt_display_yes_no(const char* name, const char* text, u32 color, void* data, void (*drawTop)(ui_view* view, void* data, float x1, float y1, float x2, float y2),
                                                                                           void (*onResponse)(ui_view* view, void* data, u32 response)) {
-    static const char* options[2] = {"Yes", "No"};
+    static const char* options[2] = {"네", "아니오"};
     static u32 optionButtons[2] = {KEY_A, KEY_B};
     return prompt_display_multi_choice(name, text, color, options, optionButtons, 2, data, drawTop, onResponse);
 }
