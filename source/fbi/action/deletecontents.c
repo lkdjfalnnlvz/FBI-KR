@@ -237,32 +237,32 @@ static void action_delete_internal(linked_list* items, list_item* selected, cons
 
     Result listRes = task_populate_files(&loadingData->popData);
     if(R_FAILED(listRes)) {
-        error_display_res(NULL, NULL, listRes, "Failed to initiate content list population.");
+        error_display_res(NULL, NULL, listRes, "콘텐츠 목록 채우기를 시작하지 못했습니다.");
 
         free(loadingData);
         action_delete_free_data(data);
         return;
     }
 
-    info_display("Loading", "Press B to cancel.", false, loadingData, action_delete_loading_update, action_delete_loading_draw_top);
+    info_display("로딩 중", "B를 눌러 취소하세요.", false, loadingData, action_delete_loading_update, action_delete_loading_draw_top);
 }
 
 void action_delete_file(linked_list* items, list_item* selected) {
-    action_delete_internal(items, selected, "Delete the selected file?", false, true, false, false);
+    action_delete_internal(items, selected, "선택한 파일을 삭제할까요?", false, true, false, false);
 }
 
 void action_delete_dir(linked_list* items, list_item* selected) {
-    action_delete_internal(items, selected, "Delete the current directory?", true, true, false, false);
+    action_delete_internal(items, selected, "현재 폴더를 삭제할까요?", true, true, false, false);
 }
 
 void action_delete_dir_contents(linked_list* items, list_item* selected) {
-    action_delete_internal(items, selected, "Delete all contents of the current directory?", true, false, false, false);
+    action_delete_internal(items, selected, "현재 폴더의 모든 콘텐츠를 삭제할까요?", true, false, false, false);
 }
 
 void action_delete_dir_cias(linked_list* items, list_item* selected) {
-    action_delete_internal(items, selected, "Delete all CIAs in the current directory?", false, false, true, false);
+    action_delete_internal(items, selected, "현재 폴더의 모든 CIA 파일을 삭제할까요?", false, false, true, false);
 }
 
 void action_delete_dir_tickets(linked_list* items, list_item* selected) {
-    action_delete_internal(items, selected, "Delete all tickets in the current directory?", false, false, false, true);
+    action_delete_internal(items, selected, "현재 폴더의 모든 티켓을 삭제할까요?", false, false, false, true);
 }
