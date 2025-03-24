@@ -68,9 +68,9 @@ void task_draw_ext_save_data_info(ui_view* view, void* data, float x1, float y1,
 
     snprintf(infoText, sizeof(infoText),
              "외부 세이브 데이터 ID: %016llX\n"
-                          "공유됨: %s",
+                          "공유 여부: %s",
              info->extSaveDataId,
-             info->shared ? "Yes" : "No");
+             info->shared ? "예" : "아니오");
 
     float infoWidth;
     screen_get_string_size(&infoWidth, NULL, infoText, 0.5f, 0.5f);
@@ -129,7 +129,7 @@ void task_draw_file_info(ui_view* view, void* data, float x1, float y1, float x2
             needsSeparator = true;
         }
     } else {
-        infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "없음음");
+        infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "없음");
     }
 
     infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "\n");
@@ -235,7 +235,7 @@ void task_draw_file_info(ui_view* view, void* data, float x1, float y1, float x2
   
           smdh_region_to_string(regionString, info->meta.region, sizeof(regionString));
       } else {
-          snprintf(regionString, sizeof(regionString), "Unknown");
+          snprintf(regionString, sizeof(regionString), "알 수 없음");
       }
   
       char infoText[512];
