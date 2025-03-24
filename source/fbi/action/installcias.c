@@ -120,7 +120,7 @@ static Result action_install_cias_open_dst(void* data, u32 index, void* initialR
 
     bool n3ds = false;
     if(R_SUCCEEDED(APT_CheckNew3DS(&n3ds)) && !n3ds && ((info->ciaInfo.titleId >> 28) & 0xF) == 2) {
-        ui_view* view = prompt_display_yes_no("Confirmation", "Title is intended for New 3DS systems.\nContinue?", COLOR_TEXT, data, action_install_cias_draw_top, action_install_cias_n3ds_onresponse);
+        ui_view* view = prompt_display_yes_no("확인", "타이틀이 New 3DS 전용입니다.\n계속할까요?", COLOR_TEXT, data, action_install_cias_draw_top, action_install_cias_n3ds_onresponse);
         if(view != NULL) {
             svcWaitSynchronization(view->active, U64_MAX);
         }
@@ -238,9 +238,9 @@ static void action_install_cias_onresponse(ui_view* view, void* data, u32 respon
     if(response == PROMPT_YES) {
         Result res = task_data_op(&installData->installInfo);
         if(R_SUCCEEDED(res)) {
-            info_display("Installing CIA(s)", "Press B to cancel.", true, data, action_install_cias_update, action_install_cias_draw_top);
+            info_display("CIA 설치 중", "B를 눌러 취소허세요.", true, data, action_install_cias_update, action_install_cias_draw_top);
         } else {
-            error_display_res(NULL, NULL, res, "Failed to initiate CIA installation.");
+            error_display_res(NULL, NULL, res, "CIA 설치를 시작하는 데 실패했습니다.");
 
             action_install_cias_free_data(installData);
         }
@@ -288,7 +288,7 @@ static void action_install_cias_loading_update(ui_view* view, void* data, float*
         svcSignalEvent(loadingData->popData.cancelEvent);
     }
 
-    snprintf(text, PROGRESS_TEXT_MAX, "Fetching CIA list...");
+    snprintf(text, PROGRESS_TEXT_MAX, "CIA 목록 가져오는 중...");
 }
 
 static void action_install_cias_internal(linked_list* items, list_item* selected, bool (*filter)(void* data, const char* name, u32 attributes), void* filterData, const char* message, bool delete) {
@@ -376,21 +376,21 @@ static void action_install_cias_internal(linked_list* items, list_item* selected
         return;
     }
 
-    info_display("Loading", "Press B to cancel.", false, loadingData, action_install_cias_loading_update, action_install_cias_loading_draw_top);
+    info_display("로딩 중", "B를 눌러 취소하세요..", false, loadingData, action_install_cias_loading_update, action_install_cias_loading_draw_top);
 }
 
 void action_install_cia(linked_list* items, list_item* selected) {
-    action_install_cias_internal(items, selected, NULL, NULL, "Install the selected CIA?", false);
+    action_install_cias_internal(items, selected, NULL, NULL, "선택한 CIA 파일을 설치할까요?", false);
 }
 
 void action_install_cia_delete(linked_list* items, list_item* selected) {
-    action_install_cias_internal(items, selected, NULL, NULL, "Install and delete the selected CIA?", true);
+    action_install_cias_internal(items, selected, NULL, NULL, "선택한 CIA 파일을 설치하고 파일을 삭제할까요?", true);
 }
 
 void action_install_cias(linked_list* items, list_item* selected, bool (*filter)(void* data, const char* name, u32 attributes), void* filterData) {
-    action_install_cias_internal(items, selected, filter, filterData, "Install all CIAs in the current directory?", false);
+    action_install_cias_internal(items, selected, filter, filterData, "현재 폴더의 모든 CIA 파일을 설치할까요?", false);
 }
 
 void action_install_cias_delete(linked_list* items, list_item* selected, bool (*filter)(void* data, const char* name, u32 attributes), void* filterData) {
-    action_install_cias_internal(items, selected, filter, filterData, "Install and delete all CIAs in the current directory?", true);
+    action_install_cias_internal(items, selected, filter, filterData, "현재 폴더의 모든 CIA 파일을 설치하고 파일을 삭제할까요??", true);
 }
