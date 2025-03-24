@@ -23,17 +23,17 @@ static list_item install_ticket = {"티켓 설치", COLOR_TEXT, action_install_t
 static list_item install_and_delete_ticket = {"티켓 설치 후 파일 삭제", COLOR_TEXT, action_install_ticket_delete};
 
 static list_item delete_dir = {"삭제", COLOR_TEXT, action_delete_dir};
-static list_item copy_all_contents = {"모든 콘텐츠 복사", COLOR_TEXT, NULL};
-static list_item delete_all_contents = {"모든 콘텐츠 삭제", COLOR_TEXT, action_delete_dir_contents};
+static list_item copy_all_contents = {"모든 내용물 복사", COLOR_TEXT, NULL};
+static list_item delete_all_contents = {"모든 내용물 삭제", COLOR_TEXT, action_delete_dir_contents};
 static list_item new_folder = {"새 폴더", COLOR_TEXT, action_new_folder};
 
-static list_item install_all_cias = {"CIA 전부 설치", COLOR_TEXT, action_install_cias};
-static list_item install_and_delete_all_cias = {"CIA 전부 설치 후 파일 삭제", COLOR_TEXT, action_install_cias_delete};
-static list_item delete_all_cias = {"CIA 전부 파일 삭제", COLOR_TEXT, action_delete_dir_cias};
+static list_item install_all_cias = {"모든 CIA 파일 설치", COLOR_TEXT, action_install_cias};
+static list_item install_and_delete_all_cias = {"CIA 파일 전부 설치 후 파일 삭제", COLOR_TEXT, action_install_cias_delete};
+static list_item delete_all_cias = {"폴더 내 CIA 파일 모두 삭제", COLOR_TEXT, action_delete_dir_cias};
 
 static list_item install_all_tickets = {"티켓 전부 설치", COLOR_TEXT, action_install_tickets};
 static list_item install_and_delete_all_tickets = {"티켓 전부 설치 후 파일 삭제", COLOR_TEXT, action_install_tickets_delete};
-static list_item delete_all_tickets = {"티켓 전부 삭제제", COLOR_TEXT, action_delete_dir_tickets};
+static list_item delete_all_tickets = {"폴더 내 티켓 전부 삭제", COLOR_TEXT, action_delete_dir_tickets};
 
 typedef struct {
     populate_files_data populateData;
@@ -196,7 +196,7 @@ static void files_action_open(linked_list* items, list_item* selected, files_dat
         }
     }
 
-    list_display((((file_info*) selected->data)->attributes & FS_ATTRIBUTE_DIRECTORY) ? "디렉토리 작업" : "파일 작업", "A: 선택, B: 뒤로 가기", data, files_action_update, files_action_draw_top);
+    list_display((((file_info*) selected->data)->attributes & FS_ATTRIBUTE_DIRECTORY) ? "폴더 작업" : "파일 작업", "A: 선택, B: 뒤로 가기", data, files_action_update, files_action_draw_top);
 }
 
 static void files_options_add_entry(linked_list* items, const char* name, bool* val) {
