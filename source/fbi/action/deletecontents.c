@@ -78,7 +78,7 @@ static Result action_delete_restore(void* data, u32 index) {
 }
 
 static bool action_delete_error(void* data, u32 index, Result res, ui_view** errorView) {
-    *errorView = error_display_res(data, action_delete_draw_top, res, "Failed to delete content.");
+    *errorView = error_display_res(data, action_delete_draw_top, res, "콘텐츠를 삭제하는 데 실패했습니다.");
     return true;
 }
 
@@ -127,9 +127,9 @@ static void action_delete_onresponse(ui_view* view, void* data, u32 response) {
     if(response == PROMPT_YES) {
         Result res = task_data_op(&deleteData->deleteInfo);
         if(R_SUCCEEDED(res)) {
-            info_display("제거 중", "B를 눌러 튀소하세요.", true, data, action_delete_update, action_delete_draw_top);
+            info_display("삭제 중", "B를 눌러 튀소하세요.", true, data, action_delete_update, action_delete_draw_top);
         } else {
-            error_display_res(NULL, NULL, res, "제거 설정을 사작하는 데 실패했습니다.");
+            error_display_res(NULL, NULL, res, "삭제 설정을 사작하는 데 실패했습니다.");
 
             action_delete_free_data(deleteData);
         }
@@ -182,7 +182,7 @@ static void action_delete_loading_update(ui_view* view, void* data, float* progr
 static void action_delete_internal(linked_list* items, list_item* selected, const char* message, bool recursive, bool includeBase, bool ciasOnly, bool ticketsOnly) {
     delete_data* data = (delete_data*) calloc(1, sizeof(delete_data));
     if(data == NULL) {
-        error_display(NULL, NULL, "제거 데이터를 할당하는 데 실패했습니다.");
+        error_display(NULL, NULL, "삭제 데이터를 할당하는 데 실패했습니다.");
 
         return;
     }
