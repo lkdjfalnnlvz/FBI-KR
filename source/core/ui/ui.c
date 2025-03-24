@@ -150,7 +150,7 @@ static void ui_draw_top(ui_view* ui) {
     screen_set_base_alpha(ui_fade_alpha);
 
     char verText[64];
-    snprintf(verText, 64, "버전. %d.%d.%d", VERSION_MAJOR, VERSION_MINOR, VERSION_MICRO);
+    snprintf(verText, 64, "버전 %d.%d.%d", VERSION_MAJOR, VERSION_MINOR, VERSION_MICRO);
 
     float verWidth;
     float verHeight;
@@ -400,15 +400,15 @@ double ui_get_display_size(u64 size) {
 
 const char* ui_get_display_size_units(u64 size) {
     if(size >= 1024 * 1024 * 1024) {
-        return "GiB";
+        return "GB";
     }
 
     if(size >= 1024 * 1024) {
-        return "MiB";
+        return "MB";
     }
 
     if(size >= 1024) {
-        return "KiB";
+        return "KB";
     }
 
     return "B";
