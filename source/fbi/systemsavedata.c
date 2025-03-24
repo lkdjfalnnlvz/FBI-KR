@@ -9,8 +9,8 @@
 #include "task/uitask.h"
 #include "../core/core.h"
 
-static list_item browse_save_data = {"세이브 데이터 찾아보기", COLOR_TEXT, action_browse_system_save_data};
-static list_item delete_save_data = {"세이브 데이터 삭제", COLOR_TEXT, action_delete_system_save_data};
+static list_item browse_save_data = {"저장 데이터 둘러보기", COLOR_TEXT, action_browse_system_save_data};
+static list_item delete_save_data = {"저장 데이터 삭제", COLOR_TEXT, action_delete_system_save_data};
 
 typedef struct {
     populate_system_save_data_data populateData;
