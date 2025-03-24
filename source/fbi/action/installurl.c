@@ -290,7 +290,7 @@ static void action_install_url_confirm_onresponse(ui_view* view, void* data, u32
     if(response == PROMPT_YES) {
         Result res = task_data_op(&installData->installInfo);
         if(R_SUCCEEDED(res)) {
-            info_display("URL을 통해 설치중", "B를 눌러 취소하세요.", true, data, action_install_url_install_update, action_install_url_draw_top);
+            info_display("URL을 통해 설치 중", "B를 눌러 취소하세요.", true, data, action_install_url_install_update, action_install_url_draw_top);
         } else {
             error_display_res(NULL, NULL, res, "설치를 시작하는 데 실패했습니다.");
 
@@ -399,5 +399,5 @@ void action_install_url(const char* confirmMessage, const char* urls, const char
 
     data->installInfo.finished = true;
 
-    prompt_display_yes_no("Confirmation", confirmMessage, COLOR_TEXT, data, action_install_url_draw_top, action_install_url_confirm_onresponse);
+    prompt_display_yes_no("확인", confirmMessage, COLOR_TEXT, data, action_install_url_draw_top, action_install_url_confirm_onresponse);
 }
