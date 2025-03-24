@@ -67,7 +67,7 @@ void task_draw_ext_save_data_info(ui_view* view, void* data, float x1, float y1,
     char infoText[512];
 
     snprintf(infoText, sizeof(infoText),
-             "외부 세이브 데이터 ID: %016llX\n"
+             "추가 저장 데이터 ID: %016llX\n"
                           "공유 여부: %s",
              info->extSaveDataId,
              info->shared ? "예" : "아니오");
@@ -198,7 +198,7 @@ void task_draw_file_info(ui_view* view, void* data, float x1, float y1, float x2
  
      char infoText[512];
  
-     snprintf(infoText, sizeof(infoText), "시스템 세이브 데이터 ID: %08lX", info->systemSaveDataId);
+     snprintf(infoText, sizeof(infoText), "시스템 저장 데이터 ID: %08lX", info->systemSaveDataId);
  
      float infoWidth;
      screen_get_string_size(&infoWidth, NULL, infoText, 0.5f, 0.5f);
