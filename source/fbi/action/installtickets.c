@@ -158,7 +158,7 @@ static void action_install_tickets_update(ui_view* view, void* data, float* prog
         info_destroy(view);
 
         if(R_SUCCEEDED(installData->installInfo.result)) {
-            prompt_display_notify("Success", "Install finished.", COLOR_TEXT, NULL, NULL, NULL);
+            prompt_display_notify("성공", "설치 완료.", COLOR_TEXT, NULL, NULL, NULL);
         }
 
         action_install_tickets_free_data(installData);
@@ -171,7 +171,7 @@ static void action_install_tickets_update(ui_view* view, void* data, float* prog
     }
 
     *progress = installData->installInfo.currTotal != 0 ? (float) ((double) installData->installInfo.currProcessed / (double) installData->installInfo.currTotal) : 0;
-    snprintf(text, PROGRESS_TEXT_MAX, "%lu / %lu\n%.2f %s / %.2f %s\n%.2f %s/s, ETA %s", installData->installInfo.processed, installData->installInfo.total,
+    snprintf(text, PROGRESS_TEXT_MAX, "%lu / %lu\n%.2f %s / %.2f %s\n%.2f %s/s, 남은 시간 %s", installData->installInfo.processed, installData->installInfo.total,
              ui_get_display_size(installData->installInfo.currProcessed),
              ui_get_display_size_units(installData->installInfo.currProcessed),
              ui_get_display_size(installData->installInfo.currTotal),
@@ -187,9 +187,9 @@ static void action_install_tickets_onresponse(ui_view* view, void* data, u32 res
     if(response == PROMPT_YES) {
         Result res = task_data_op(&installData->installInfo);
         if(R_SUCCEEDED(res)) {
-            info_display("Installing ticket(s)", "Press B to cancel.", true, data, action_install_tickets_update, action_install_tickets_draw_top);
+            info_display("티켓 설치 중", "B를 눌러 취소하세요.", true, data, action_install_tickets_update, action_install_tickets_draw_top);
         } else {
-            error_display_res(NULL, NULL, res, "Failed to initiate ticket installation.");
+            error_display_res(NULL, NULL, res, "티켓 설치를 시작하지 못했습니다.");
 
             action_install_tickets_free_data(installData);
         }
@@ -237,13 +237,13 @@ static void action_install_tickets_loading_update(ui_view* view, void* data, flo
         svcSignalEvent(loadingData->popData.cancelEvent);
     }
 
-    snprintf(text, PROGRESS_TEXT_MAX, "Fetching ticket list...");
+    snprintf(text, PROGRESS_TEXT_MAX, "티켓 목록 가져오는 중...");
 }
 
 static void action_install_tickets_internal(linked_list* items, list_item* selected, bool (*filter)(void* data, const char* name, u32 attributes), void* filterData, const char* message, bool delete) {
     install_tickets_data* data = (install_tickets_data*) calloc(1, sizeof(install_tickets_data));
     if(data == NULL) {
-        error_display(NULL, NULL, "Failed to allocate install tickets data.");
+        error_display(NULL, NULL, "티켓 설치 데이터를 할당하는 데 실패했습니다.");
 
         return;
     }
@@ -253,7 +253,7 @@ static void action_install_tickets_internal(linked_list* items, list_item* selec
     file_info* targetInfo = (file_info*) selected->data;
     Result targetCreateRes = task_create_file_item(&data->targetItem, targetInfo->archive, targetInfo->path, targetInfo->attributes, true);
     if(R_FAILED(targetCreateRes)) {
-        error_display_res(NULL, NULL, targetCreateRes, "Failed to create target file item.");
+        error_display_res(NULL, NULL, targetCreateRes, "대상 파일 항목을 생성하는 데 실패했습니다.");
 
         action_install_tickets_free_data(data);
         return;
@@ -293,7 +293,7 @@ static void action_install_tickets_internal(linked_list* items, list_item* selec
 
     install_tickets_loading_data* loadingData = (install_tickets_loading_data*) calloc(1, sizeof(install_tickets_loading_data));
     if(loadingData == NULL) {
-        error_display(NULL, NULL, "Failed to allocate loading data.");
+        error_display(NULL, NULL, "로딩 데이터를 할당하는 데 실패했습니다.");
 
         action_install_tickets_free_data(data);
         return;
@@ -316,14 +316,14 @@ static void action_install_tickets_internal(linked_list* items, list_item* selec
 
     Result listRes = task_populate_files(&loadingData->popData);
     if(R_FAILED(listRes)) {
-        error_display_res(NULL, NULL, listRes, "Failed to initiate ticket list population.");
+        error_display_res(NULL, NULL, listRes, "티켓 목록 채우기를 시작하지 못했습니다.");
 
         free(loadingData);
         action_install_tickets_free_data(data);
         return;
     }
 
-    info_display("Loading", "Press B to cancel.", false, loadingData, action_install_tickets_loading_update, action_install_tickets_loading_draw_top);
+    info_display("로딩 중", "B를 눌러 취소하세요.", false, loadingData, action_install_tickets_loading_update, action_install_tickets_loading_draw_top);
 }
 
 void action_install_ticket(linked_list* items, list_item* selected) {
