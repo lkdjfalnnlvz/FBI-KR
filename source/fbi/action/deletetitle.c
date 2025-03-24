@@ -37,7 +37,7 @@ static void action_delete_title_update(ui_view* view, void* data, float* progres
         linked_list_remove(deleteData->items, deleteData->selected);
         task_free_title(deleteData->selected);
 
-        prompt_display_notify("Success", "Title deleted.", COLOR_TEXT, NULL, NULL, NULL);
+        prompt_display_notify("성공", "타이틀 삭제됨.", COLOR_TEXT, NULL, NULL, NULL);
     }
 
     free(data);
@@ -45,7 +45,7 @@ static void action_delete_title_update(ui_view* view, void* data, float* progres
 
 static void action_delete_title_onresponse(ui_view* view, void* data, u32 response) {
     if(response == PROMPT_YES) {
-        info_display("Deleting Title", "", false, data, action_delete_title_update, action_delete_title_draw_top);
+        info_display("타이틀 삭제 중", "", false, data, action_delete_title_update, action_delete_title_draw_top);
     } else {
         free(data);
     }
@@ -54,7 +54,7 @@ static void action_delete_title_onresponse(ui_view* view, void* data, u32 respon
 static void action_delete_title_internal(linked_list* items, list_item* selected, const char* message, bool ticket) {
     delete_title_data* data = (delete_title_data*) calloc(1, sizeof(delete_title_data));
     if(data == NULL) {
-        error_display(NULL, NULL, "Failed to allocate delete title data.");
+        error_display(NULL, NULL, "타이틀 삭제 데이터를 할당하지 못했습니다.");
 
         return;
     }
@@ -67,9 +67,9 @@ static void action_delete_title_internal(linked_list* items, list_item* selected
 }
 
 void action_delete_title(linked_list* items, list_item* selected) {
-    action_delete_title_internal(items, selected, "Delete the selected title?", false);
+    action_delete_title_internal(items, selected, "선택한 타이틀을 삭제할까요?", false);
 }
 
 void action_delete_title_ticket(linked_list* items, list_item* selected) {
-    action_delete_title_internal(items, selected, "Delete the selected title and ticket?", true);
+    action_delete_title_internal(items, selected, "선택한 타이틀과 티켓을 삭제할까요?", true);
 }
