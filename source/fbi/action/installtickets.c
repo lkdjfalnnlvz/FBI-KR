@@ -327,17 +327,17 @@ static void action_install_tickets_internal(linked_list* items, list_item* selec
 }
 
 void action_install_ticket(linked_list* items, list_item* selected) {
-    action_install_tickets_internal(items, selected, NULL, NULL, "Install the selected ticket?", false);
+    action_install_tickets_internal(items, selected, NULL, NULL, "선택한 티켓을 설치할까요?", false);
 }
 
 void action_install_ticket_delete(linked_list* items, list_item* selected) {
-    action_install_tickets_internal(items, selected, NULL, NULL, "Install and delete the selected ticket?", true);
+    action_install_tickets_internal(items, selected, NULL, NULL, "선택한 티켓을 설치하고 파일을 삭제할까요?", true);
 }
 
 void action_install_tickets(linked_list* items, list_item* selected, bool (*filter)(void* data, const char* name, u32 attributes), void* filterData) {
-    action_install_tickets_internal(items, selected, filter, filterData, "Install all tickets in the current directory?", false);
+    action_install_tickets_internal(items, selected, filter, filterData, "현재 폴더에 있는 모든 티켓을 설치할까요?", false);
 }
 
 void action_install_tickets_delete(linked_list* items, list_item* selected, bool (*filter)(void* data, const char* name, u32 attributes), void* filterData) {
-    action_install_tickets_internal(items, selected, filter, filterData, "Install and delete all tickets in the current directory?", true);
+    action_install_tickets_internal(items, selected, filter, filterData, "현재 폴더에 있는 모든 티켓을 설치하고 파일을 삭제할까요?", true);
 }
