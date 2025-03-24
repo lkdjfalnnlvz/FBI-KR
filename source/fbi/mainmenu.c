@@ -16,8 +16,8 @@ static list_item dump_nand = {"낸드 덤프", COLOR_TEXT, dumpnand_open};
 static list_item titles = {"타이틀", COLOR_TEXT, titles_open};
 static list_item pending_titles = {"보류 중인 타이틀", COLOR_TEXT, pendingtitles_open};
 static list_item tickets = {"티켓", COLOR_TEXT, tickets_open};
-static list_item ext_save_data = {"외부 세이브 데이터", COLOR_TEXT, extsavedata_open};
-static list_item system_save_data = {"시스템 세이브 데이터", COLOR_TEXT, systemsavedata_open};
+static list_item ext_save_data = {"추가 저장 데이터", COLOR_TEXT, extsavedata_open};
+static list_item system_save_data = {"시스템 저장 데이터", COLOR_TEXT, systemsavedata_open};
 static list_item remote_install = {"원격 설치", COLOR_TEXT, remoteinstall_open};
 static list_item update = {"업데이트", COLOR_TEXT, update_open};
 
