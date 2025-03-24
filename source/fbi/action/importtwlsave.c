@@ -95,7 +95,7 @@ static void action_import_twl_save_update(ui_view* view, void* data, float* prog
         info_destroy(view);
 
         if(R_SUCCEEDED(importData->importInfo.result)) {
-            prompt_display_notify("Success", "Save imported.", COLOR_TEXT, importData->title, task_draw_title_info, NULL);
+            prompt_display_notify("성공", "세이브 가져옴.", COLOR_TEXT, importData->title, task_draw_title_info, NULL);
         }
 
         free(data);
@@ -124,9 +124,9 @@ static void action_import_twl_save_onresponse(ui_view* view, void* data, u32 res
 
         Result res = task_data_op(&importData->importInfo);
         if(R_SUCCEEDED(res)) {
-            info_display("Importing Save", "Press B to cancel.", true, data, action_import_twl_save_update, action_import_twl_save_draw_top);
+            info_display("세이브를 가져오는 중입니다", "B를 눌러 취소하세요.", true, data, action_import_twl_save_update, action_import_twl_save_draw_top);
         } else {
-            error_display_res(importData->title, task_draw_title_info, res, "Failed to initiate save import.");
+            error_display_res(importData->title, task_draw_title_info, res, "세이브 데이터 가져오기에 실패했습니다.");
             free(data);
         }
     } else {
@@ -137,7 +137,7 @@ static void action_import_twl_save_onresponse(ui_view* view, void* data, u32 res
 void action_import_twl_save(linked_list* items, list_item* selected) {
     import_twl_save_data* data = (import_twl_save_data*) calloc(1, sizeof(import_twl_save_data));
     if(data == NULL) {
-        error_display(NULL, NULL, "Failed to allocate import TWL save data.");
+        error_display(NULL, NULL, "TWL 세이브 데이터 가져오기를 할당하지 못했습니다.");
 
         return;
     }
@@ -172,5 +172,5 @@ void action_import_twl_save(linked_list* items, list_item* selected) {
 
     data->importInfo.finished = true;
 
-    prompt_display_yes_no("Confirmation", "Import the save of the selected title?", COLOR_TEXT, data, action_import_twl_save_draw_top, action_import_twl_save_onresponse);
+    prompt_display_yes_no("확인", "선택한 타이틀의 세이브를 가져올까요?", COLOR_TEXT, data, action_import_twl_save_draw_top, action_import_twl_save_onresponse);
 }
