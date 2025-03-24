@@ -61,7 +61,7 @@ static void systemsavedata_action_update(ui_view* view, void* data, linked_list*
 static void systemsavedata_action_open(linked_list* items, list_item* selected) {
     systemsavedata_action_data* data = (systemsavedata_action_data*) calloc(1, sizeof(systemsavedata_action_data));
     if(data == NULL) {
-        error_display(NULL, NULL, "시스템 세이브 데이터 작업 데이터를 할당하는 데 실패했습니다.");
+        error_display(NULL, NULL, "시스템 저장 데이터 작업 데이터를 할당하는 데 실패했습니다.");
 
         return;
     }
@@ -69,7 +69,7 @@ static void systemsavedata_action_open(linked_list* items, list_item* selected) 
     data->items = items;
     data->selected = selected;
 
-    list_display("시스템 세이브 데이터 작업", "A: 선택, B: 뒤로로", data, systemsavedata_action_update, systemsavedata_action_draw_top);
+    list_display("시스템 저장 데이터 작업", "A: 선택, B: 뒤로로", data, systemsavedata_action_update, systemsavedata_action_draw_top);
 }
 
 static void systemsavedata_draw_top(ui_view* view, void* data, float x1, float y1, float x2, float y2, list_item* selected) {
@@ -109,14 +109,14 @@ static void systemsavedata_update(ui_view* view, void* data, linked_list* items,
         listData->populateData.items = items;
         Result res = task_populate_system_save_data(&listData->populateData);
         if(R_FAILED(res)) {
-            error_display_res(NULL, NULL, res, "시스템 세이브 데이터 목록 채우기를 시작하지 못했습니다.");
+            error_display_res(NULL, NULL, res, "시스템 저장 데이터 목록 채우기를 시작하지 못했습니다.");
         }
 
         listData->populated = true;
     }
 
     if(listData->populateData.finished && R_FAILED(listData->populateData.result)) {
-        error_display_res(NULL, NULL, listData->populateData.result, "시스템 세이브 데이터 목록 채우기에 실패했습니다.");
+        error_display_res(NULL, NULL, listData->populateData.result, "시스템 저장 데이터 목록 채우기에 실패했습니다.");
 
         listData->populateData.result = 0;
     }
@@ -130,12 +130,12 @@ static void systemsavedata_update(ui_view* view, void* data, linked_list* items,
 void systemsavedata_open() {
     systemsavedata_data* data = (systemsavedata_data*) calloc(1, sizeof(systemsavedata_data));
     if(data == NULL) {
-        error_display(NULL, NULL, "시스템 세이브 데이터의 데이터를 할당하는 데 실패했습니다.");
+        error_display(NULL, NULL, "시스템 저장 데이터의 데이터를 할당하는 데 실패했습니다.");
 
         return;
     }
 
     data->populateData.finished = true;
 
-    list_display("시스템 세이브 데이터", "A: 선택, B: 뒤로, X: 새로고침", data, systemsavedata_update, systemsavedata_draw_top);
+    list_display("시스템 저장 데이터", "A: 선택, B: 뒤로, X: 새로고침", data, systemsavedata_update, systemsavedata_draw_top);
 }
