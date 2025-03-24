@@ -209,7 +209,7 @@ static void action_install_cias_update(ui_view* view, void* data, float* progres
         info_destroy(view);
 
         if(R_SUCCEEDED(installData->installInfo.result)) {
-            prompt_display_notify("Success", "Install finished.", COLOR_TEXT, NULL, NULL, NULL);
+            prompt_display_notify("성공", "설치 완료.", COLOR_TEXT, NULL, NULL, NULL);
         }
 
         action_install_cias_free_data(installData);
@@ -222,7 +222,7 @@ static void action_install_cias_update(ui_view* view, void* data, float* progres
     }
 
     *progress = installData->installInfo.currTotal != 0 ? (float) ((double) installData->installInfo.currProcessed / (double) installData->installInfo.currTotal) : 0;
-    snprintf(text, PROGRESS_TEXT_MAX, "%lu / %lu\n%.2f %s / %.2f %s\n%.2f %s/s, ETA %s", installData->installInfo.processed, installData->installInfo.total,
+    snprintf(text, PROGRESS_TEXT_MAX, "%lu / %lu\n%.2f %s / %.2f %s\n%.2f %s/s, 남은 시간 %s", installData->installInfo.processed, installData->installInfo.total,
              ui_get_display_size(installData->installInfo.currProcessed),
              ui_get_display_size_units(installData->installInfo.currProcessed),
              ui_get_display_size(installData->installInfo.currTotal),
@@ -273,9 +273,9 @@ static void action_install_cias_loading_update(ui_view* view, void* data, float*
             loadingData->installData->installInfo.total = linked_list_size(&loadingData->installData->contents);
             loadingData->installData->installInfo.processed = loadingData->installData->installInfo.total;
 
-            prompt_display_yes_no("Confirmation", loadingData->message, COLOR_TEXT, loadingData->installData, action_install_cias_draw_top, action_install_cias_onresponse);
+            prompt_display_yes_no("확인", loadingData->message, COLOR_TEXT, loadingData->installData, action_install_cias_draw_top, action_install_cias_onresponse);
         } else {
-            error_display_res(NULL, NULL, loadingData->popData.result, "Failed to populate CIA list.");
+            error_display_res(NULL, NULL, loadingData->popData.result, "CIA 목록 채우기에 실패했습니다.");
 
             action_install_cias_free_data(loadingData->installData);
         }
@@ -294,7 +294,7 @@ static void action_install_cias_loading_update(ui_view* view, void* data, float*
 static void action_install_cias_internal(linked_list* items, list_item* selected, bool (*filter)(void* data, const char* name, u32 attributes), void* filterData, const char* message, bool delete) {
     install_cias_data* data = (install_cias_data*) calloc(1, sizeof(install_cias_data));
     if(data == NULL) {
-        error_display(NULL, NULL, "Failed to allocate install CIAs data.");
+        error_display(NULL, NULL, "CIA 설치 데이터를 할당하는 데 실패했습니다.");
 
         return;
     }
@@ -304,7 +304,7 @@ static void action_install_cias_internal(linked_list* items, list_item* selected
     file_info* targetInfo = (file_info*) selected->data;
     Result targetCreateRes = task_create_file_item(&data->targetItem, targetInfo->archive, targetInfo->path, targetInfo->attributes, true);
     if(R_FAILED(targetCreateRes)) {
-        error_display_res(NULL, NULL, targetCreateRes, "Failed to create target file item.");
+        error_display_res(NULL, NULL, targetCreateRes, "대상 파일 항목을 만드는 데 실패했습니다.");
 
         action_install_cias_free_data(data);
         return;
@@ -346,7 +346,7 @@ static void action_install_cias_internal(linked_list* items, list_item* selected
 
     install_cias_loading_data* loadingData = (install_cias_loading_data*) calloc(1, sizeof(install_cias_loading_data));
     if(loadingData == NULL) {
-        error_display(NULL, NULL, "Failed to allocate loading data.");
+        error_display(NULL, NULL, "로딩 데이터를 할당하는 데 실패했습니다.");
 
         action_install_cias_free_data(data);
         return;
@@ -369,7 +369,7 @@ static void action_install_cias_internal(linked_list* items, list_item* selected
 
     Result listRes = task_populate_files(&loadingData->popData);
     if(R_FAILED(listRes)) {
-        error_display_res(NULL, NULL, listRes, "Failed to initiate CIA list population.");
+        error_display_res(NULL, NULL, listRes, "CIA 목록 채우기를 시작하지 못했습니다.");
 
         free(loadingData);
         action_install_cias_free_data(data);
