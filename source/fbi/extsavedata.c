@@ -49,7 +49,35 @@ static void extsavedata_action_update(ui_view* view, void* data, linked_list* it
     if(selected != NULL && selected->data != NULL && (selectedTouched || (hidKeysDown() & KEY_A))) {
         void(*action)(linked_list*, list_item*) = (void(*)(linked_list*, list_item*)) selected->data;
 
-      장 데이터 작업", "A: 선택, B: 취소(뒤로 가기)", data, extsavedata_action_update, extsavedata_action_draw_top);
+        ui_pop();
+        list_destroy(view);
+
+        action(actionData->items, actionData->selected);
+
+        free(data);
+
+        return;
+    }
+
+    if(linked_list_size(items) == 0) {
+        linked_list_add(items, &browse_user_save_data);
+        linked_list_add(items, &browse_spotpass_save_data);
+        linked_list_add(items, &delete_save_data);
+    }
+}
+
+static void extsavedata_action_open(linked_list* items, list_item* selected) {
+    extsavedata_action_data* data = (extsavedata_action_data*) calloc(1, sizeof(extsavedata_action_data));
+    if(data == NULL) {
+        error_display(NULL, NULL, "외부 저장 데이터 작업 데이터를 할당하지 못했습니다.");
+
+        return;
+    }
+
+    data->items = items;
+    data->selected = selected;
+
+    list_display("추가 저장 데이터 작업", "A: 선택, B: 취소(뒤로 가기)", data, extsavedata_action_update, extsavedata_action_draw_top);
 }
 
 static void extsavedata_options_add_entry(linked_list* items, const char* name, bool* val) {
