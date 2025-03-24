@@ -105,7 +105,7 @@ static void action_delete_update(ui_view* view, void* data, float* progress, cha
         info_destroy(view);
 
         if(R_SUCCEEDED(deleteData->deleteInfo.result)) {
-            prompt_display_notify("Success", "Deleted.", COLOR_TEXT, NULL, NULL, NULL);
+            prompt_display_notify("성공", "제거됨.", COLOR_TEXT, NULL, NULL, NULL);
         }
 
         action_delete_free_data(deleteData);
@@ -127,9 +127,9 @@ static void action_delete_onresponse(ui_view* view, void* data, u32 response) {
     if(response == PROMPT_YES) {
         Result res = task_data_op(&deleteData->deleteInfo);
         if(R_SUCCEEDED(res)) {
-            info_display("Deleting", "Press B to cancel.", true, data, action_delete_update, action_delete_draw_top);
+            info_display("제거 중", "B를 눌러 튀소하세요.", true, data, action_delete_update, action_delete_draw_top);
         } else {
-            error_display_res(NULL, NULL, res, "Failed to initiate delete operation.");
+            error_display_res(NULL, NULL, res, "제거 설정을 사작하는 데 실패했습니다.");
 
             action_delete_free_data(deleteData);
         }
@@ -163,7 +163,7 @@ static void action_delete_loading_update(ui_view* view, void* data, float* progr
 
             prompt_display_yes_no("Confirmation", loadingData->message, COLOR_TEXT, loadingData->deleteData, action_delete_draw_top, action_delete_onresponse);
         } else {
-            error_display_res(NULL, NULL, loadingData->popData.result, "Failed to populate content list.");
+            error_display_res(NULL, NULL, loadingData->popData.result, "콘텐츠 목록을 채우는 데 실패했습니다.");
 
             action_delete_free_data(loadingData->deleteData);
         }
@@ -176,13 +176,13 @@ static void action_delete_loading_update(ui_view* view, void* data, float* progr
         svcSignalEvent(loadingData->popData.cancelEvent);
     }
 
-    snprintf(text, PROGRESS_TEXT_MAX, "Fetching content list...");
+    snprintf(text, PROGRESS_TEXT_MAX, "콘탠츠 목록 가져오는 중...");
 }
 
 static void action_delete_internal(linked_list* items, list_item* selected, const char* message, bool recursive, bool includeBase, bool ciasOnly, bool ticketsOnly) {
     delete_data* data = (delete_data*) calloc(1, sizeof(delete_data));
     if(data == NULL) {
-        error_display(NULL, NULL, "Failed to allocate delete data.");
+        error_display(NULL, NULL, "제거 데이터를 할당하는 데 실패했습니다.");
 
         return;
     }
@@ -192,7 +192,7 @@ static void action_delete_internal(linked_list* items, list_item* selected, cons
     file_info* targetInfo = (file_info*) selected->data;
     Result targetCreateRes = task_create_file_item(&data->targetItem, targetInfo->archive, targetInfo->path, targetInfo->attributes, false);
     if(R_FAILED(targetCreateRes)) {
-        error_display_res(NULL, NULL, targetCreateRes, "Failed to create target file item.");
+        error_display_res(NULL, NULL, targetCreateRes, "대상 파일 항목을 생성하지 못했습니다.");
 
         action_delete_free_data(data);
         return;
@@ -217,7 +217,7 @@ static void action_delete_internal(linked_list* items, list_item* selected, cons
 
     delete_loading_data* loadingData = (delete_loading_data*) calloc(1, sizeof(delete_loading_data));
     if(loadingData == NULL) {
-        error_display(NULL, NULL, "Failed to allocate loading data.");
+        error_display(NULL, NULL, "로딩 데이터를 할당하는 데 실패했습니다.");
 
         action_delete_free_data(data);
         return;
