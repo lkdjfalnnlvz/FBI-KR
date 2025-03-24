@@ -10,8 +10,8 @@
 #include "task/uitask.h"
 #include "../core/core.h"
 
-static list_item browse_user_save_data = {"유저 저장 데이터 찾아보기", COLOR_TEXT, action_browse_user_ext_save_data};
-static list_item browse_spotpass_save_data = {"Spotpass 저장 데이터 찾아보기", COLOR_TEXT, action_browse_boss_ext_save_data};
+static list_item browse_user_save_data = {"유저 저장 데이터 둘러보기", COLOR_TEXT, action_browse_user_ext_save_data};
+static list_item browse_spotpass_save_data = {"Spotpass 저장 데이터 둘러보기", COLOR_TEXT, action_browse_boss_ext_save_data};
 static list_item delete_save_data = {"저장 데이터 삭제", COLOR_TEXT, action_delete_ext_save_data};
 
 typedef struct {
