@@ -180,7 +180,7 @@ static Result action_install_cias_restore(void* data, u32 index) {
 }
 
 bool action_install_cias_error(void* data, u32 index, Result res, ui_view** errorView) {
-    *errorView = error_display_res(data, action_install_cias_draw_top, res, "Failed to install CIA file.");
+    *errorView = error_display_res(data, action_install_cias_draw_top, res, "CIA 파일 설치에 실패했습니다.");
     return true;
 }
 
