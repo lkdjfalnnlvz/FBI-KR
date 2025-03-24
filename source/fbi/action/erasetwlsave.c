@@ -75,7 +75,7 @@ static Result action_erase_twl_save_restore(void* data, u32 index) {
 }
 
 static bool action_erase_twl_save_error(void* data, u32 index, Result res, ui_view** errorView) {
-    *errorView = error_display_res(((erase_twl_save_data*) data)->title, task_draw_title_info, res, "Failed to erase save.");
+    *errorView = error_display_res(((erase_twl_save_data*) data)->title, task_draw_title_info, res, "세이브를 지우는 데 실패했습니다.");
     return true;
 }
 
@@ -87,7 +87,7 @@ static void action_erase_twl_save_update(ui_view* view, void* data, float* progr
         info_destroy(view);
 
         if(R_SUCCEEDED(eraseData->eraseInfo.result)) {
-            prompt_display_notify("Success", "Save erased.", COLOR_TEXT, eraseData->title, task_draw_title_info, NULL);
+            prompt_display_notify("성공", "세이브 지워짐.", COLOR_TEXT, eraseData->title, task_draw_title_info, NULL);
         }
 
         free(data);
@@ -100,7 +100,7 @@ static void action_erase_twl_save_update(ui_view* view, void* data, float* progr
     }
 
     *progress = eraseData->eraseInfo.currTotal != 0 ? (float) ((double) eraseData->eraseInfo.currProcessed / (double) eraseData->eraseInfo.currTotal) : 0;
-    snprintf(text, PROGRESS_TEXT_MAX, "%.2f %s / %.2f %s\n%.2f %s/s, ETA %s",
+    snprintf(text, PROGRESS_TEXT_MAX, "%.2f %s / %.2f %s\n%.2f %s/s, 남은 시간 %s",
              ui_get_display_size(eraseData->eraseInfo.currProcessed),
              ui_get_display_size_units(eraseData->eraseInfo.currProcessed),
              ui_get_display_size(eraseData->eraseInfo.currTotal),
@@ -116,9 +116,9 @@ static void action_erase_twl_save_onresponse(ui_view* view, void* data, u32 resp
 
         Result res = task_data_op(&eraseData->eraseInfo);
         if(R_SUCCEEDED(res)) {
-            info_display("Erasing Save", "Press B to cancel.", true, data, action_erase_twl_save_update, action_erase_twl_save_draw_top);
+            info_display("세이브 삭제 중", "B를 눌러 취소하세요.", true, data, action_erase_twl_save_update, action_erase_twl_save_draw_top);
         } else {
-            error_display_res(eraseData->title, task_draw_title_info, res, "Failed to initiate save erase.");
+            error_display_res(eraseData->title, task_draw_title_info, res, "세이브 지우기를 시작하지 못했습니다.");
             free(data);
         }
     } else {
@@ -129,7 +129,7 @@ static void action_erase_twl_save_onresponse(ui_view* view, void* data, u32 resp
 void action_erase_twl_save(linked_list* items, list_item* selected) {
     erase_twl_save_data* data = (erase_twl_save_data*) calloc(1, sizeof(erase_twl_save_data));
     if(data == NULL) {
-        error_display(NULL, NULL, "Failed to allocate erase TWL save data.");
+        error_display(NULL, NULL, "TWL 세이브 지우기 데이터 할당에 실패했습니다.");
 
         return;
     }
@@ -164,5 +164,5 @@ void action_erase_twl_save(linked_list* items, list_item* selected) {
 
     data->eraseInfo.finished = true;
 
-    prompt_display_yes_no("Confirmation", "Erase the save of the selected title?", COLOR_TEXT, data, action_erase_twl_save_draw_top, action_erase_twl_save_onresponse);
+    prompt_display_yes_no("확인n", "선택한 타이틀의 세이브를 지울까요?", COLOR_TEXT, data, action_erase_twl_save_draw_top, action_erase_twl_save_onresponse);
 }
