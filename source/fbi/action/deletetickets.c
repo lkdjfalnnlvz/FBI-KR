@@ -215,14 +215,14 @@ static void action_delete_tickets_internal(linked_list* items, list_item* select
             return;
         }
 
-        info_display("Loading", "Press B to cancel.", false, loadingData, action_delete_tickets_loading_update, action_delete_tickets_loading_draw_top);
+        info_display("로딩 중", "B를 눌러 취소하세요.", false, loadingData, action_delete_tickets_loading_update, action_delete_tickets_loading_draw_top);
     } else {
         linked_list_add(&data->contents, selected);
 
         data->deleteInfo.total = 1;
         data->deleteInfo.processed = data->deleteInfo.total;
 
-        prompt_display_yes_no("Confirmation", message, COLOR_TEXT, data, action_delete_tickets_draw_top, action_delete_tickets_onresponse);
+        prompt_display_yes_no("확인", message, COLOR_TEXT, data, action_delete_tickets_draw_top, action_delete_tickets_onresponse);
     }
 }
 
