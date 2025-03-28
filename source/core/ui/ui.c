@@ -157,9 +157,14 @@ static void ui_draw_top(ui_view* ui) {
     screen_get_string_size(&verWidth, &verHeight, verText, 0.5f, 0.5f);
     screen_draw_string(verText, topScreenTopBarX + 2, topScreenTopBarY + (topScreenTopBarHeight - verHeight) / 2, 0.5f, 0.5f, COLOR_TEXT, true);
 
-    time_t t = time(NULL);
-    char* timeText = ctime(&t);
+    time_t t = time(NULL); // 현재 시간을 가져옴
+    struct tm tm = *localtime(&t); // 현지 시간으로 변환
+
+    char timeText[50]; // 날짜를 저장할 문자열
+    strftime(timeText, sizeof(timeText), "%Y년 %m월 %d일 (%H:%M:%S)", &tm); // 원하는 형식으로 변환
+        
     timeText[strlen(timeText) - 1] = '\0';
+
 
     float timeTextWidth;
     float timeTextHeight;
