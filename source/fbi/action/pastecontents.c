@@ -240,7 +240,7 @@ static void action_paste_contents_update(ui_view* view, void* data, float* progr
         info_destroy(view);
 
         if(R_SUCCEEDED(pasteData->pasteInfo.result)) {
-            prompt_display_notify("Success", "Contents pasted.", COLOR_TEXT, NULL, NULL, NULL);
+            prompt_display_notify("성공", "파일 붙여넣기 완료.", COLOR_TEXT, NULL, NULL, NULL);
         }
 
         action_paste_contents_free_data(pasteData);
@@ -374,7 +374,7 @@ void action_paste_contents(linked_list* items, list_item* selected) {
 
     paste_contents_loading_data* loadingData = (paste_contents_loading_data*) calloc(1, sizeof(paste_contents_loading_data));
     if(loadingData == NULL) {
-        error_display(NULL, NULL, "Failed to allocate loading data.");
+        error_display(NULL, NULL, "로딩 데이터를 할당하는 데 실패했습니다.");
 
         action_paste_contents_free_data(data);
         return;
@@ -393,12 +393,12 @@ void action_paste_contents(linked_list* items, list_item* selected) {
 
     Result listRes = task_populate_files(&loadingData->popData);
     if(R_FAILED(listRes)) {
-        error_display_res(NULL, NULL, listRes, "Failed to initiate clipboard content list population.");
+        error_display_res(NULL, NULL, listRes, "클립보드 목록 채우기에 실패했습니다.");
 
         free(loadingData);
         action_paste_contents_free_data(data);
         return;
     }
 
-    info_display("Loading", "Press B to cancel.", false, loadingData, action_paste_contents_loading_update, action_paste_contents_loading_draw_top);
+    info_display("로딩 중", "B를 눌러 취소하세요.", false, loadingData, action_paste_contents_loading_update, action_paste_contents_loading_draw_top);
 }
