@@ -138,7 +138,7 @@ static void action_export_twl_save_onresponse(ui_view* view, void* data, u32 res
 
         Result res = task_data_op(&exportData->exportInfo);
         if(R_SUCCEEDED(res)) {
-            info_display("Exporting Save", "Press B to cancel.", true, data, action_export_twl_save_update, action_export_twl_save_draw_top);
+            info_display("세이브 추출 중", "B를 눌러 취소하세요.", true, data, action_export_twl_save_update, action_export_twl_save_draw_top);
         } else {
             error_display_res(exportData->title, task_draw_title_info, res, "세이브 추출을 시작하는 데 실패했습니다.");
             free(data);
