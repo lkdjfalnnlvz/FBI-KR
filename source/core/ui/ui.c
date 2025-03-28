@@ -161,8 +161,10 @@ static void ui_draw_top(ui_view* ui) {
     struct tm tm = *localtime(&t); // 현지 시간으로 변환
 
     char timeText[50]; // 날짜를 저장할 문자열
-    strftime(timeText, sizeof(timeText), "%Y년 %m월 %d일 %H:%M:%S", &tm); // 원하는 형식으로 변환
-        
+    char* weekdays[] = {"일", "월", "화", "수", "목", "금", "토"};
+    snprintf(timeText, sizeof(timeText), "%Y년 %m월 %d일 %s %H:%M:%S", 
+             tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, 
+             weekdays[tm.tm_wday], tm.tm_hour, tm.tm_min, tm.tm_sec);
     timeText[strlen(timeText) - 1] = '\0';
 
 
