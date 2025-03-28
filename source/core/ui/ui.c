@@ -165,7 +165,7 @@ static void ui_draw_top(ui_view* ui) {
     snprintf(timeText, sizeof(timeText), "%d.%d.%d %s %02d:%02d:%02d", 
              tm.tm_year % 100, tm.tm_mon + 1, tm.tm_mday, 
              weekdays[tm.tm_wday], tm.tm_hour, tm.tm_min, tm.tm_sec);
-    timeText[strlen(timeText) - 1] = '\0';
+    timeText[strlen(timeText)] = '\0';
 
 
     float timeTextWidth;
