@@ -162,7 +162,7 @@ static void ui_draw_top(ui_view* ui) {
 
     char timeText[50]; // 날짜를 저장할 문자열
     char* weekdays[] = {"일", "월", "화", "수", "목", "금", "토"};
-    snprintf(timeText, sizeof(timeText), "%d.%d.% %s %02d:%02d:%02d", 
+    snprintf(timeText, sizeof(timeText), "%d.%d.%d %s %02d:%02d:%02d", 
              tm.tm_year % 100, tm.tm_mon + 1, tm.tm_mday, 
              weekdays[tm.tm_wday], tm.tm_hour, tm.tm_min, tm.tm_sec);
     timeText[strlen(timeText) - 1] = '\0';
