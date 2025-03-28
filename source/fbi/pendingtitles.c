@@ -137,5 +137,5 @@ void pendingtitles_open() {
 
     data->populateData.finished = true;
 
-    list_display("Pending Titles", "A: Select, B: Return, X: Refresh", data, pendingtitles_update, pendingtitles_draw_top);
+    list_display("보류 중인 타이틀", "A: 선택, B: 뒤로, X: 새로고침", data, pendingtitles_update, pendingtitles_draw_top);
 }
