@@ -59,7 +59,7 @@ static Result action_delete_tickets_restore(void* data, u32 index) {
 }
 
 static bool action_delete_tickets_error(void* data, u32 index, Result res, ui_view** errorView) {
-    *errorView = error_display_res(data, action_delete_tickets_draw_top, res, "Failed to delete ticket(s).");
+    *errorView = error_display_res(data, action_delete_tickets_draw_top, res, "티켓 삭제에 실패했습니다.");
     return true;
 }
 
@@ -148,7 +148,7 @@ static void action_delete_tickets_loading_update(ui_view* view, void* data, floa
             loadingData->deleteData->deleteInfo.total = linked_list_size(&loadingData->deleteData->contents);
             loadingData->deleteData->deleteInfo.processed = loadingData->deleteData->deleteInfo.total;
 
-            prompt_display_yes_no("Confirmation", loadingData->message, COLOR_TEXT, loadingData->deleteData, action_delete_tickets_draw_top, action_delete_tickets_onresponse);
+            prompt_display_yes_no("확인", loadingData->message, COLOR_TEXT, loadingData->deleteData, action_delete_tickets_draw_top, action_delete_tickets_onresponse);
         } else {
             error_display_res(NULL, NULL, loadingData->popData.result, "티켓 목록을 채우는 데 실패했습니다.");
 
